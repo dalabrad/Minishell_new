@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:35:00 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/07 18:25:29 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/09 19:06:23 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,47 @@ static int	append_status(char **out, int last_status)
 	return (0);
 }
 
-static int	append_var(char **out, const char *s, t_env *env, size_t *i)
+static int append_var(char **out, const char *s, t_env *env, size_t *i)
 {
 	size_t	start;
 	char	*name;
 	char	*val;
 
-	if (!s[*i + 1])
-		return ((*out = ft_strjoin_char_free(*out, '$')) == NULL);
-	if (s[*i + 1] == '?')
+	if (!s[*i + 1]) // '$' al final de la cadena
+	{
+		*out = ft_strjoin_char_free(*out, '$');
+		(*i)++;  // <- AVANZAR para evitar bucle infinito
+		return (*out == NULL);
+	}
+
+	if (s[*i + 1] == '?') // este caso ya lo maneja expand_core, así que lo ignoramos aquí
 		return (0);
+
 	start = *i + 1;
 	while (s[start] && is_name_char(s[start]))
 		start++;
-	if (start == *i + 1)
-		return ((*out = ft_strjoin_char_free(*out, '$')) == NULL);
+
+	if (start == *i + 1) // '$' no seguido de nombre válido
+	{
+		*out = ft_strjoin_char_free(*out, '$');
+		(*i)++;  // <- AVANZAR
+		return (*out == NULL);
+	}
+
 	name = ft_substr(s, *i + 1, start - (*i + 1));
 	if (!name)
 		return (1);
+
 	val = get_env_value_from_list(name, env);
 	free(name);
+
 	if (!val)
 		val = "";
+
 	*out = ft_strjoin_free(*out, val);
 	if (!*out)
 		return (1);
+
 	*i = start;
 	return (0);
 }
@@ -86,10 +102,11 @@ static char	*expand_core(const char *s, t_env *env, int last_status)
 			sq = !sq;
 		else if (s[i] == '\"' && !sq && (i++ || 1))
 			dq = !dq;
-		else if (s[i] == '$' && !sq && s[i + 1] == '?' && (i += 2))
+		else if (s[i] == '$' && !sq && s[i + 1] == '?')
 		{
 			if (append_status(&out, last_status))
 				return (free(out), NULL);
+			i += 2;
 		}
 		else if (s[i] == '$' && !sq)
 		{
