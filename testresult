@@ -71,7 +71,7 @@ cat a.txt    # → solo "dos"
 echo "a" >a.txt >b.txt
 cat b.txt
 
-❌ # Append
+✅ # Append
 echo "line1" >>c.txt
 echo "line2" >>c.txt
 cat c.txt    # → line1 + line2
