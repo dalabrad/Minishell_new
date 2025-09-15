@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 19:05:30 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/09 16:46:06 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:23:02 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,10 @@ void	one_builtin_with_redir(t_data *data, t_cmd *cmd)
 		data->last_status = 1;
 		return ;
 	}
-	/* Aplica redirecciones (prototipos void según tu header) */
 	if (cmd->file_in)
 		file_in_redir(cmd);
 	if (cmd->file_out)
 		file_out_redir(cmd);
-	/* Ejecuta el builtin directamente */
 	data->last_status = run_builtin(cmd, data);
-	/* Restaura STDIN/STDOUT */
 	restore_stdio(in_bk, out_bk);
 }

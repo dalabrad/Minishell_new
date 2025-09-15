@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_data.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:25:36 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/08 23:59:12 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:31:18 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
 
-int	data_init(t_data *data, char **envp)
+static void	fill_data(t_data *data)
 {
 	data->g_builtin[0] = (t_builtin){.name = "exit", .foo = shell_exit};
 	data->g_builtin[1] = (t_builtin){.name = "env", .foo = shell_env};
@@ -35,13 +34,18 @@ int	data_init(t_data *data, char **envp)
 	data->pipes[1][R_PIPE] = -1;
 	data->pipes[1][W_PIPE] = -1;
 	data->tokens_by_segment = NULL;
+}
+
+int	data_init(t_data *data, char **envp)
+{
+	fill_data(data);
 	if (shell_envp_list_create(envp, &(data->shell_envp)))
 	{
 		data->shell_envp = NULL;
 		return (EXIT_FAILURE);
 	}
 	if (resync_env_array(&data->envp_exec, data->shell_envp))
-    	return (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_envp_array_resync.c                           :+:      :+:    :+:   */
+/*   shell_envp_array_resync.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/08 23:23:51 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/08 23:39:40 by vlorenzo         ###   ########.fr       */
+/*   Created: 2025/09/15 16:51:54 by dalabrad          #+#    #+#             */
+/*   Updated: 2025/09/15 16:56:38 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void	ft_free_split(char **arr)
 
 static size_t	count_visible_envs(t_env *env)
 {
-	size_t	count = 0;
+	size_t	count;
 
+	count = 0;
 	while (env)
 	{
 		if (env->visible)
@@ -57,6 +58,7 @@ static char	*join_env_var(t_env *var)
 	ft_strlcat(joined, var->value, len);
 	return (joined);
 }
+
 int	rebuild_array_visible(char ***dst_envp, t_env *env_list)
 {
 	size_t	count;
@@ -77,9 +79,9 @@ int	rebuild_array_visible(char ***dst_envp, t_env *env_list)
 	{
 		if (env->visible)
 		{
-    	(*dst_envp)[i] = join_env_var(env);
-    	if (!(*dst_envp)[i++])
-        	return (1);
+			(*dst_envp)[i] = join_env_var(env);
+			if (!(*dst_envp)[i++])
+				return (1);
 		}
 		env = env->next;
 	}

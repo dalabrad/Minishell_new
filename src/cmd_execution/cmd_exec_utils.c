@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 01:23:41 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/08 01:37:43 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:10:38 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
-
 
 void	err_cmd_not_found(const char *name, t_data *data)
 {
@@ -33,7 +32,8 @@ int	is_directory_path(const char *path)
 	return (S_ISDIR(st.st_mode));
 }
 
-/* Si trae '/', se usa tal cual; si no, busca en PATH con tu find_path(args,&env). */
+/* Si trae '/', se usa tal cual; si no, busca en PATH 
+ * con tu find_path(args,&env). */
 char	*resolve_exec_path(t_cmd *cmd, t_data *data)
 {
 	char	*prog;

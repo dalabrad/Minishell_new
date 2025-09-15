@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 17:44:44 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/09 17:03:41 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:16:19 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	file_in_redir(t_cmd *cmd)
 	if (dup2(fd_in, STDIN_FILENO) < 0)
 		exit(error_msg(DUP_ERROR));
 	close(fd_in);
-	return(fd_in);
+	return (fd_in);
 }
 
 int	file_out_redir(t_cmd *cmd)
@@ -43,5 +43,5 @@ int	file_out_redir(t_cmd *cmd)
 	if (dup2(fd_out, STDOUT_FILENO) < 0)
 		exit(error_msg(DUP_ERROR));
 	close(fd_out);
-	return(fd_out);
+	return (fd_out);
 }
