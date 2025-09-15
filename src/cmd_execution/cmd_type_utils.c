@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_type_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:46:09 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/08 23:59:12 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:07:47 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	free_cmd_list(t_cmd *cmd)
 			free(cmd->file_in);
 		if (cmd->file_out)
 			free(cmd->file_out);
-		/* No liberar: append_out (bool), pid (pid_t) */
 		free(cmd);
 		cmd = tmp;
 	}
