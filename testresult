@@ -1,9 +1,9 @@
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────
 │ #   │ Descripción                       │ Comando(s)                                 │ OUT   │ ERR   │ STS   │
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────
-│ 1   │ export + env: crea y lee VAR1      │ export VAR1=hola; env | grep '^VAR1='      │ NO    │ NO    │ OK    │
-│ 2   │ export con espacios (VAR2)         │ export VAR2="con espacios"; env | grep '^… │ NO    │ OK    │ OK    │
-│ 3   │ reasignación VAR1                  │ export VAR1=adios; env | grep '^VAR1='     │ NO    │ NO    │ OK    │
+│ 1   │ export + env: crea y lee VAR1      │ export VAR1=hola; env | grep VAR1          │ OK    │ NO    │ OK    │
+│ 2   │ export con espacios (VAR2)         │ export VAR2="con espacios"; env | grep VAR2│ NO    │ OK    │ OK    │
+│ 3   │ reasignación VAR1                  │ export VAR1=adios; env | grep VAR1         │ OK    │ NO    │ OK    │
 │ 4   │ unset TMPVAR                       │ export TMPVAR=test; env | grep '^TMPVAR='… │ NO    │ NO    │ OK    │
 │ 5   │ pwd / cd / pwd                     │ pwd; cd /; pwd                             │ NO    │ NO    │ OK    │
 │ 6   │ cd .. y pwd                        │ cd ..; pwd                                 │ NO    │ NO    │ OK    │
@@ -32,44 +32,51 @@
 │ 29  │ echo "hola" "mundo"                │ echo "hola" "mundo"                        │ NO    │ OK    │ OK    │
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
+✅ echo $ → línea vacía.
 
-✅ 
+✅ echo '$' → $
 
-echo $ → línea vacía.
+✅ echo "$" → $
 
-echo '$' → $.
+✅ echo $? → 0 (o último status).
 
-echo "$" → $.
+✅ echo '$?' → $? literal.
 
-echo $? → 0 (o último status).
+✅ echo "$?" → 0 (expansión dentro de comillas dobles).echo <mari
 
-echo '$?' → $? literal.
+✅ echo hola <mari
 
-echo "$?" → 0 (expansión dentro de comillas dobles).echo <mari
-echo hola <mari
-cat mari
-cat <mari
-cat <mari meri miri
-cat result3 miri
-cat < result3 miri
-cat < result3 < miri
-cat < result3 <miri <mari
-cat result3 <miri <mari
-cat <result3 <miri <mari meri
-echo <result3 <miri <mari meri
-cat <result3 miri <mari meri
+✅ cat mari
+
+✅ cat <mari
+
+✅ echo x >a >b
+
+✅ <in echo ok
+
+✅ <result <mari <meri
+
+✅ >result4
+
+<in
+
+✅ <<
+
+✅ # Crea y sobrescribe
+echo "uno" >a.txt
+echo "dos" >a.txt
+cat a.txt    # → solo "dos"
+
+✅ # Last wins → escribe en b.txt, no en a.txt
+echo "a" >a.txt >b.txt
+cat b.txt
+
+❌ # Append
+echo "line1" >>c.txt
+echo "line2" >>c.txt
+cat c.txt    # → line1 + line2
 
 
-<result3 echo <miri <meri
-echo  <result3 <miri <meri
-echo hola <result3 <miri <meri
-cat <result3 <miri <meri
-echo <result3 <miri <meri
-echo hola <result3 miri <meri
-cat <result3 <meri
-<result <mari <meri
->result4
-<<
 cat <infile || echo hola
 cmd arg > infile1 arg arg >infile1
 echo bai > result echo ez >result
