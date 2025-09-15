@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 12:38:55 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/15 17:07:06 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/15 18:12:51 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	exec_external(t_cmd *cmd, t_data *data)
 
 	path = resolve_exec_path(cmd, data);
 	if (!path)
-		return (err_cmd_not_found(cmd->args[0], data));
+		return ;
 	if (check_exec_preflight(path, data))
 		return (free(path));
 	run_execve_handle(path, cmd, data);
