@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_exec.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:32:53 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/09 00:12:01 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:49:10 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include "libft.h"
 # include "minishell_parsing.h"
 # include "minishell_signals.h"
-#include <errno.h>
+# include <errno.h>
 # include <dirent.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -94,7 +94,7 @@ struct					s_data
 	t_tokens			**tokens_by_segment;
 	size_t				nbr_cmds;
 	int					last_status;
-	char        		**envp_exec; 
+	char				**envp_exec;
 };
 
 ////////////////////////////////////////////////
@@ -112,7 +112,8 @@ int						syntax_error(char *token);
 ////////////////////////////////////////////////
 
 // src/environment/envp_set
-int						env_set(t_env **env, const char *name, const char *value);
+int						env_set(t_env **env, const char *name,
+							const char *value);
 
 //	src/environment/envp_attribute_getters.c
 char					*get_envp_name(char *envp);
@@ -134,7 +135,8 @@ void					delete_shell_envp_node(t_env **shell_envp,
 size_t					shell_envp_size(t_env *shell_envp_node);
 
 //	src/environment/shell_envp_array_resync.c 
-int						rebuild_array_visible(char ***dst_envp, t_env *env_list);
+int						rebuild_array_visible(char ***dst_envp,
+							t_env *env_list);
 void					ft_free_split(char **arr);
 int						resync_env_array(char ***dst_envp, t_env *list);
 
@@ -148,7 +150,6 @@ char					**env_to_array(t_env *list);
 //	src/shell_envp_list_create.c
 void					print_shell_envp_list(t_env *shell_envp);
 int						shell_envp_list_create(char **envp, t_env **shell_envp);
-
 
 ////////////////////////////////////////////////
 //------MINISHELL_DATA--------------------------
@@ -180,16 +181,19 @@ char					*find_path(char **args, t_env **shell_envp);
 
 //	src/cmd_execution/is_builtin.c
 int						is_builtin(const char *s);
-int     				run_builtin(t_cmd *cmd, t_data *data);
+int						run_builtin(t_cmd *cmd, t_data *data);
 
 //	src/cmd_execution/command_exec.c
 void					command_exec(t_cmd *cmd, t_data *data);
 void					err_cmd_not_found(const char *name, t_data *data);
 char					*resolve_exec_path(t_cmd *cmd, t_data *data);
 int						check_exec_preflight(const char *path, t_data *data);
-void					run_execve_handle(const char *path, t_cmd *cmd, t_data *data);// src/cmd_execution/file_redirections.c
-int					file_in_redir(t_cmd *cmd);
-int					file_out_redir(t_cmd *cmd);
+void					run_execve_handle(const char *path, t_cmd *cmd,
+							t_data *data);
+
+// src/cmd_execution/file_redirections.c
+int						file_in_redir(t_cmd *cmd);
+int						file_out_redir(t_cmd *cmd);
 
 // src/cmd_execution/one_builtin_with_redir.c
 void					one_builtin_with_redir(t_data *data, t_cmd *cmd);
@@ -205,7 +209,7 @@ void					child_process(t_data *data, t_cmd *cmd, size_t i);
 void					execute_pipeline(t_data *data);
 
 // CMD TYPE UTILS
-int 					ensure_envp_exec(t_data *data);
+int						ensure_envp_exec(t_data *data);
 void					free_cmd_list(t_cmd *cmd);
 t_cmd					*last_cmd(t_cmd *head);
 size_t					number_of_cmds(t_cmd *head);
