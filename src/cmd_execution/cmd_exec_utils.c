@@ -6,19 +6,21 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 01:23:41 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/15 17:10:38 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:17:20 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
 
+int extern	g_status;
+
 void	err_cmd_not_found(const char *name, t_data *data)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd((char *)name, 2);
 	ft_putstr_fd(": command not found\n", 2);
-	data->last_status = 127;
+	g_status = 127;
 }
 
 int	is_directory_path(const char *path)
@@ -53,7 +55,7 @@ int	check_exec_preflight(const char *path, t_data *data)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd((char *)path, 2);
 		ft_putstr_fd(": is a directory\n", 2);
-		data->last_status = 126;
+		g_status = 126;
 		return (1);
 	}
 	if (access(path, X_OK) != 0)
@@ -65,7 +67,7 @@ int	check_exec_preflight(const char *path, t_data *data)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd((char *)path, 2);
 			ft_putstr_fd(": Permission denied\n", 2);
-			data->last_status = 126;
+			g_status = 126;
 		}
 		return (1);
 	}
@@ -76,7 +78,7 @@ void	run_execve_handle(const char *path, t_cmd *cmd, t_data *data)
 {
 	if (ensure_envp_exec(data))
 	{
-		data->last_status = 127;
+		g_status = 127;
 		return ;
 	}
 	execve(path, cmd->args, data->envp_exec);
@@ -87,13 +89,13 @@ void	run_execve_handle(const char *path, t_cmd *cmd, t_data *data)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd((char *)path, 2);
 		ft_putstr_fd(": Permission denied\n", 2);
-		data->last_status = 126;
+		g_status = 126;
 	}
 	else
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd((char *)path, 2);
 		ft_putstr_fd(": execution error\n", 2);
-		data->last_status = 126;
+		g_status = 126;
 	}
 }

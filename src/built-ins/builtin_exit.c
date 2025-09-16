@@ -6,12 +6,14 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:18:50 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/15 17:48:53 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:17:02 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
+
+int extern	g_status;
 
 static int	ft_isspace(int c)
 {
@@ -106,7 +108,7 @@ int	shell_exit(char **args, t_data *data)
 	if (data && (data->nbr_cmds == 1 || data->nbr_cmds == 0))
 		printf("exit\n");
 	if (!args || !args[0])
-		exit_code = data->last_status;
+		exit_code = g_status;
 	else
 	{
 		exit_code = get_exit_code(args[0], &error);

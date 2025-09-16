@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   one_command_pipeline.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 12:26:53 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/16 00:42:22 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:21:29 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
+
+int extern	g_status;
 
 static void	parent(t_data *data, t_cmd *cmd)
 {
@@ -20,21 +22,21 @@ static void	parent(t_data *data, t_cmd *cmd)
 	status = 0;
 	waitpid(cmd->pid, &status, 0);
 	if (WIFEXITED(status))
-		data->last_status = WEXITSTATUS(status);
+		g_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		data->last_status = 128 + WTERMSIG(status);
+		g_status = 128 + WTERMSIG(status);
 }
 
 static void	child(t_data *data, t_cmd *cmd)
 {
 	if (cmd->file_in && file_in_redir(cmd) < 0)
-		_exit(1);
+		exit(1);
 	if (cmd->file_out && file_out_redir(cmd) < 0)
-		_exit(1);
+		exit(1);
 	command_exec(cmd, data);
 	free_cmd_list(data->first_cmd);
 	free_data(data);
-	_exit(EXIT_SUCCESS);
+	exit(g_status);
 }
 
 void	one_cmd_pipeline(t_data *data)

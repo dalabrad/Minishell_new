@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   one_builtin_with_redir.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 19:05:30 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/16 00:40:53 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:18:00 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
+
+int extern	g_status;
 
 static int	save_stdio(int *in_bk, int *out_bk)
 {
@@ -37,23 +39,23 @@ void	one_builtin_with_redir(t_data *data, t_cmd *cmd)
 		return ;
 	if (save_stdio(&in_bk, &out_bk) < 0)
 	{
-		data->last_status = 1;
+		g_status = 1;
 		return ;
 	}
 	/* IN */
 	if (cmd->file_in && file_in_redir(cmd) < 0)
 	{
-		data->last_status = 1;
+		g_status = 1;
 		restore_stdio(in_bk, out_bk);
 		return ;
 	}
 	/* OUT */
 	if (cmd->file_out && file_out_redir(cmd) < 0)
 	{
-		data->last_status = 1;
+		g_status = 1;
 		restore_stdio(in_bk, out_bk);
 		return ;
 	}
-	data->last_status = run_builtin(cmd, data);
+	g_status = run_builtin(cmd, data);
 	restore_stdio(in_bk, out_bk);
 }

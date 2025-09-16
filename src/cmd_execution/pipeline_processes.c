@@ -6,12 +6,14 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 17:18:35 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/15 17:18:23 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:18:53 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
+
+int extern	g_status;
 
 static void	close_safe(int *fd)
 {
@@ -45,7 +47,7 @@ void	child_process(t_data *data, t_cmd *cmd, size_t i)
 		exit(1);
 	child_stdio(data, i);
 	command_exec(cmd, data);
-	exit(data->last_status);
+	exit(g_status);
 }
 
 static void	wait_all_children(t_data *data, t_cmd *head)
@@ -67,7 +69,7 @@ static void	wait_all_children(t_data *data, t_cmd *head)
 		}
 		cur = cur->next;
 	}
-	data->last_status = status;
+	g_status = status;
 }
 
 void	parent_process(t_data *data, t_cmd *cmd, size_t i)

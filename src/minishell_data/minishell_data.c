@@ -6,12 +6,14 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:25:36 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/15 17:31:18 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:27:23 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
+
+int extern	g_status;
 
 static void	fill_data(t_data *data)
 {
@@ -26,9 +28,9 @@ static void	fill_data(t_data *data)
 	data->shell_envp = NULL;
 	data->first_cmd = NULL;
 	data->nbr_cmds = 0;
-	data->last_status = 0;
 	data->envp_exec = NULL;
 	data->nbr_cmds = 0;
+	g_status = 0;
 	data->pipes[0][R_PIPE] = -1;
 	data->pipes[0][W_PIPE] = -1;
 	data->pipes[1][R_PIPE] = -1;

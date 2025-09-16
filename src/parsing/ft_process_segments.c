@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_process_segments.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:36:10 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/08/25 20:04:10 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:20:14 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
+
+int extern	g_status;
 
 // PROCESS ALL PIPES/SEGMENTS
 void	process_single_segment(char *segment, t_tokens **token, t_data *data,
@@ -25,7 +27,7 @@ void	process_single_segment(char *segment, t_tokens **token, t_data *data,
 	*token = check_args_fixed(segment, &word_count);
 	if (!*token)
 		return ;
-	expand_tokens(*token, data->shell_envp, data->last_status);
+	expand_tokens(*token, data->shell_envp, g_status);
 	current = tokens_to_cmd(*token);
 	if (!current)
 	{
