@@ -6,7 +6,7 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 00:29:51 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/08/25 20:42:11 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/16 00:40:25 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 #include "minishell_parsing.h"
 
 // RETORE STDIN/OUT
-void	restore_stdio(int in, int out)
+void	restore_stdio(int in_bk, int out_bk)
 {
-	dup2(in, STDIN_FILENO);
-	dup2(out, STDOUT_FILENO);
+	dup2(in_bk, STDIN_FILENO);
+	dup2(out_bk, STDOUT_FILENO);
+	close(in_bk);
+	close(out_bk);
 }
 
 // RESET COMMANDS

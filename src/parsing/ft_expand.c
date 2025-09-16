@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:35:00 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/09 19:06:23 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/15 20:13:53 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,50 +38,63 @@ static int	append_status(char **out, int last_status)
 	return (0);
 }
 
-static int append_var(char **out, const char *s, t_env *env, size_t *i)
-{
-	size_t	start;
-	char	*name;
-	char	*val;
+// Prototipo sugerido en .h:
+// int append_var(char **out, const char *s, t_env *env, size_t *i);
 
-	if (!s[*i + 1]) // '$' al final de la cadena
+static int	append_var(char **out, const char *s, t_env *env, size_t *i)
+{
+	size_t		start;
+	char		*name;
+	const char	*raw;
+	char		*val;
+
+	/* '$' al final → no añade nada (echo $ => línea vacía) */
+	if (!s[*i + 1])
 	{
-		*out = ft_strjoin_char_free(*out, '$');
-		(*i)++;  // <- AVANZAR para evitar bucle infinito
-		return (*out == NULL);
+		(*i)++;
+		return (0);
+	}
+	/* Si lo siguiente NO es nombre válido ni '?' → no añade nada */
+	if (!(ft_isalpha((unsigned char)s[*i + 1]) || s[*i + 1] == '_') && s[*i + 1] != '?')
+	{
+		(*i)++;
+		return (0);
 	}
 
-	if (s[*i + 1] == '?') // este caso ya lo maneja expand_core, así que lo ignoramos aquí
-		return (0);
-
+	/* $VAR */
 	start = *i + 1;
-	while (s[start] && is_name_char(s[start]))
+	while (s[start] && (ft_isalnum((unsigned char)s[start]) || s[start] == '_'))
 		start++;
 
-	if (start == *i + 1) // '$' no seguido de nombre válido
+	/* si no hay nombre tras '$' (p.ej. '$ ') → no añadir */
+	if (start == *i + 1)
 	{
-		*out = ft_strjoin_char_free(*out, '$');
-		(*i)++;  // <- AVANZAR
-		return (*out == NULL);
+		(*i)++;
+		return (0);
 	}
 
 	name = ft_substr(s, *i + 1, start - (*i + 1));
 	if (!name)
 		return (1);
 
-	val = get_env_value_from_list(name, env);
+	raw = get_env_value_from_list(name, env);
 	free(name);
 
+	/* duplica SIEMPRE para gestionar memoria homogénea */
+	val = ft_strdup(raw ? raw : "");
 	if (!val)
-		val = "";
+		return (1);
 
 	*out = ft_strjoin_free(*out, val);
+	free(val);
 	if (!*out)
 		return (1);
 
+	/* deja *i en el primer carácter tras el nombre, para que el bucle siga con lo que venga (p.ej. 'yes' en $USERyes) */
 	*i = start;
 	return (0);
 }
+
 
 static char	*expand_core(const char *s, t_env *env, int last_status)
 {
@@ -98,20 +111,43 @@ static char	*expand_core(const char *s, t_env *env, int last_status)
 		return (NULL);
 	while (s[i])
 	{
-		if (s[i] == '\'' && !dq && (i++ || 1))
+		if (s[i] == '\'' && !dq)               /* abrir/cerrar ' ... ' */
+		{
 			sq = !sq;
-		else if (s[i] == '\"' && !sq && (i++ || 1))
-			dq = !dq;
-		else if (s[i] == '$' && !sq && s[i + 1] == '?')
-		{
-			if (append_status(&out, last_status))
-				return (free(out), NULL);
-			i += 2;
+			i++;
 		}
-		else if (s[i] == '$' && !sq)
+		else if (s[i] == '\"' && !sq)          /* abrir/cerrar " ... " */
 		{
-			if (append_var(&out, s, env, &i))
-				return (free(out), NULL);
+			dq = !dq;
+			i++;
+		}
+		else if (s[i] == '$' && !sq)           /* expansión solo fuera de comillas simples */
+		{
+			/* $$ -> PID */
+			if (s[i + 1] == '$')
+			{
+				char *pid = ft_itoa(getpid());
+				if (!pid)
+					return (free(out), NULL);
+				out = ft_strjoin_free(out, pid);
+				free(pid);
+				if (!out)
+					return (NULL);
+				i += 2;
+			}
+			/* $? -> último status */
+			else if (s[i + 1] == '?')
+			{
+				i += 2;
+				if (append_status(&out, last_status))
+					return (free(out), NULL);
+			}
+			/* $VAR / $... (delegamos a append_var) */
+			else
+			{
+				if (append_var(&out, s, env, &i))
+					return (free(out), NULL);
+			}
 		}
 		else
 		{

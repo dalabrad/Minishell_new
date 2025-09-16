@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:10:22 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/09 18:25:14 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/16 00:43:38 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,31 @@
 
 int	shell_echo(char **args, t_data *data)
 {
-	int		i;
-	bool	nl_flag;
+	int	i;
+	int	no_nl;
+	int	j;
 
-	i = 0;
-	nl_flag = true;
 	(void)data;
-	if (!args || !args[0])
-		return (EXIT_SUCCESS);
-	if (args[i] && !ft_strcmp("-n", args[i]))
+	i = 0;
+	no_nl = 0;
+	while (args[i] && args[i][0] == '-' && args[i][1] == 'n')
 	{
-		nl_flag = false;
+		j = 2;
+		while (args[i][j] == 'n')
+			j++;
+		if (args[i][j] != '\0')
+			break ;
+		no_nl = 1;
 		i++;
 	}
 	while (args[i])
 	{
-		ft_putstr_fd(args[i], STDOUT_FILENO);
+		ft_putstr_fd(args[i], 1);
 		if (args[i + 1])
-			ft_putstr_fd(" ", STDOUT_FILENO);
+			ft_putstr_fd(" ", 1);
 		i++;
 	}
-	if (nl_flag)
-		ft_putstr_fd("\n", STDOUT_FILENO);
-	return (EXIT_SUCCESS);
+	if (!no_nl)
+		ft_putstr_fd("\n", 1);
+	return (0);
 }

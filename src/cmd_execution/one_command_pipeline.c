@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   one_command_pipeline.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 12:26:53 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/15 17:16:40 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/16 00:42:22 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static void	parent(t_data *data, t_cmd *cmd)
 
 static void	child(t_data *data, t_cmd *cmd)
 {
-	if (cmd->file_in)
-		file_in_redir(cmd);
-	if (cmd->file_out)
-		file_out_redir(cmd);
+	if (cmd->file_in && file_in_redir(cmd) < 0)
+		_exit(1);
+	if (cmd->file_out && file_out_redir(cmd) < 0)
+		_exit(1);
 	command_exec(cmd, data);
 	free_cmd_list(data->first_cmd);
 	free_data(data);
-	exit(EXIT_SUCCESS);
+	_exit(EXIT_SUCCESS);
 }
 
 void	one_cmd_pipeline(t_data *data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_message.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 23:16:31 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/07/28 19:16:52 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/15 21:16:25 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	error_msg(t_err error_code)
 	return (error_code);
 }
 
+
 int	error_msg_arg(t_err error_code, char *arg)
 {
 	if (!arg)
@@ -49,16 +50,18 @@ int	error_msg_arg(t_err error_code, char *arg)
 		ft_putstr_fd("cd: ", STDERR_FILENO);
 		ft_putstr_fd(arg, STDERR_FILENO);
 		if (error_code == CD_NO_DIR)
-			ft_putstr_fd(" : No such file or directory\n", STDERR_FILENO);
+			ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		else
-			ft_putstr_fd(" : Permission denied\n", STDERR_FILENO);
+			ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 	}
-	if (error_code == NO_PATH)
+	else if (error_code == NO_PATH)
 	{
 		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putstr_fd(" : No such file or directory\n", STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd((char *)strerror(errno), STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
 	}
-	if (error_code == CMD_NOT_FOUND)
+	else if (error_code == CMD_NOT_FOUND)
 	{
 		ft_putstr_fd("command not found: ", STDERR_FILENO);
 		ft_putstr_fd(arg, STDERR_FILENO);
