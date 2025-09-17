@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 17:18:35 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/17 12:59:59 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/17 15:42:14 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,9 @@ static void	wait_all_children(t_data *data, t_cmd *head)
 void	parent_process(t_data *data, t_cmd *cmd, size_t i)
 {
 	if (i > 0)
-		close_safe(&data->pipes[(i + 1) % 2][R_PIPE]);
-	if (cmd->next == NULL)
 	{
-		close_safe(&data->pipes[0][R_PIPE]);
-		close_safe(&data->pipes[0][W_PIPE]);
-		close_safe(&data->pipes[1][R_PIPE]);
-		close_safe(&data->pipes[1][W_PIPE]);
-		wait_all_children(data, data->first_cmd);
+		close_safe(&data->pipes[(i + 1) % 2][R_PIPE]);
+		close_safe(&data->pipes[(i + 1) % 2][W_PIPE]);
 	}
+	wait_all_children(data, data->first_cmd);
 }
