@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 17:18:35 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:18:53 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:59:59 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,14 @@ static void	child_stdio(t_data *d, size_t i)
 	int	read_fd;
 	int	write_fd;
 
-	read_fd = (i == 0) ? -1 : d->pipes[(i + 1) % 2][R_PIPE];
-	write_fd = (i == (size_t)(d->nbr_cmds - 1)) ? -1 : d->pipes[i % 2][W_PIPE];
+	if (i == 0)
+		read_fd = -1;
+	else
+		read_fd = d->pipes[(i + 1) % 2][R_PIPE];
+	if (i == (size_t)(d->nbr_cmds - 1))
+		write_fd = -1;
+	else
+		write_fd = d->pipes[i % 2][W_PIPE];
 	if (read_fd >= 0)
 		dup2(read_fd, STDIN_FILENO);
 	if (write_fd >= 0)

@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:51:54 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/15 16:56:38 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:03:23 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ int	rebuild_array_visible(char ***dst_envp, t_env *env_list)
 		}
 		env = env->next;
 	}
-	(*dst_envp)[i] = NULL;
-	return (0);
+	return ((*dst_envp)[i] = NULL, 0);
 }
 
 int	resync_env_array(char ***dst_envp, t_env *list)

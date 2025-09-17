@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parsing.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:21:52 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/01 23:37:04 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:39:06 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ t_tokens				*new_token(char *str);
 t_cmd					*new_cmd(void);
 int						handle_token_alloc_fail(char **segments, char *line);
 t_pipes					*init_struct(t_pipes *args);
-int						init_pipe_segments(char *line, char ***segments, size_t *n);
+int						init_pipe_segments(char *line, char ***segments,
+							size_t *n);
 t_tokens				**init_tokens_by_segment(size_t count);
 void					print_history(void);
 
@@ -147,8 +148,8 @@ int						ft_lstadd_front2(t_pipes **lst, t_pipes *new);
 const char				*skip_space(const char *s);
 size_t					is_open(const char *s);
 int						is_escaped(const char *s, int i, int in_single);
-void					update_quote_state(char c, int *in_s, int *in_d, int prev_escape);
-
+void					update_quote_state(char c, int *in_s, int *in_d,
+							int prev_escape);
 
 // FT_CLASIFY TOKENS
 t_TokenType				clasify_token(const char *str);

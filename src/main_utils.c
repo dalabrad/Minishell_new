@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 00:29:51 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/16 00:40:25 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:41:49 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	process_input_line(char *line, t_data *data, int in, int out)
 	if (!line || !*line)
 		return ;
 	n_pipe = 0;
-	//pipe_seg = NULL;
-	//*pipe_seg = NULL;
 	add_history(line);
 	if (!ft_strcmp(line, "history"))
 		return (print_history(), (void)0);
@@ -58,6 +56,12 @@ void	process_input_line(char *line, t_data *data, int in, int out)
 	args.tokens = tokens;
 	args.count = n_pipe;
 	reset_cmd_state(data, &args);
+}
+
+void	close_in_out(int in, int out)
+{
+	close(in);
+	close(out);
 }
 
 // MAIN LOOP CALLING SEGMENTS/PIPES FOR TOKENIZATION
@@ -87,6 +91,5 @@ void	main_loop(t_data *data)
 	}
 	write_history(".minishell_history");
 	rl_clear_history();
-	close(in);
-	close(out);
+	close_in_out(in, out);
 }

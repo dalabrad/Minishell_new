@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 22:11:17 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/15 16:58:37 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:05:59 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ char	*env_build_kv(t_env *e)
 	tmp = ft_strjoin(e->name, "=");
 	if (!tmp)
 		return (NULL);
-	kv = ft_strjoin(tmp, e->value ? e->value : "");
+	if (e->value)
+		kv = ft_strjoin(tmp, e->value);
+	else
+		kv = ft_strjoin(tmp, "");
 	free(tmp);
 	return (kv);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_message.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 23:16:31 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/15 21:16:25 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:23:06 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	error_msg(t_err error_code)
 	return (error_code);
 }
 
-
 int	error_msg_arg(t_err error_code, char *arg)
 {
 	if (!arg)
@@ -57,9 +56,7 @@ int	error_msg_arg(t_err error_code, char *arg)
 	else if (error_code == NO_PATH)
 	{
 		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd((char *)strerror(errno), STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 	}
 	else if (error_code == CMD_NOT_FOUND)
 	{

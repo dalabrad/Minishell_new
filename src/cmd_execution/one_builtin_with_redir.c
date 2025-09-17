@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 19:05:30 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:18:00 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:56:46 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@ void	one_builtin_with_redir(t_data *data, t_cmd *cmd)
 		g_status = 1;
 		return ;
 	}
-	/* IN */
 	if (cmd->file_in && file_in_redir(cmd) < 0)
 	{
 		g_status = 1;
 		restore_stdio(in_bk, out_bk);
 		return ;
 	}
-	/* OUT */
 	if (cmd->file_out && file_out_redir(cmd) < 0)
 	{
 		g_status = 1;

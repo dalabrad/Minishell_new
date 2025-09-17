@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 23:42:02 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/15 16:58:06 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:13:58 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ static t_env	*env_new_pair(const char *name, const char *value)
 	if (!e)
 		return (NULL);
 	e->name = ft_strdup(name);
-	e->value = ft_strdup(value ? value : "");
+	if (value)
+		e->value = ft_strdup(value);
+	else
+		e->value = ft_strdup("");
 	if (!e->name || !e->value)
 	{
 		free(e->name);
@@ -43,6 +46,15 @@ static t_env	*env_new_pair(const char *name, const char *value)
 		return (NULL);
 	}
 	return (e);
+}
+
+void	replace_node_value(t_env *node, const char *value)
+{
+	free(node->value);
+	if (value)
+		node->value = ft_strdup(value);
+	else
+		node->value = ft_strdup("");
 }
 
 /* Upsert: si existe -> actualiza; si no -> crea y añade al final */
@@ -56,8 +68,7 @@ int	env_set(t_env **env, const char *name, const char *value)
 	node = env_find(*env, name);
 	if (node)
 	{
-		free(node->value);
-		node->value = ft_strdup(value ? value : "");
+		replace_node_value(node, value);
 		return (node->value == NULL);
 	}
 	node = env_new_pair(name, value);
