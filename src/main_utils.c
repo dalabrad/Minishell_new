@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 00:29:51 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/21 16:08:10 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/21 19:05:53 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	reset_cmd_state(t_data *data, t_cleanup_args *args)
 {
 	free_cmd_list(data->first_cmd);
 	data->first_cmd = NULL;
-	cleanup(args->segments, args->tokens, args->count);
 }
 
 void	process_input_line(char *line, t_data *data, int in, int out)
@@ -54,11 +53,12 @@ void	process_input_line(char *line, t_data *data, int in, int out)
 	if (!tokens)
 		return ;
 	process_segments(pipe_seg, tokens, n_pipe, data);
-	execute_pipeline(data);
-	restore_stdio(in, out);
 	args.segments = pipe_seg;
 	args.tokens = tokens;
 	args.count = n_pipe;
+	cleanup(args.segments, args.tokens, args.count);
+	execute_pipeline(data);
+	restore_stdio(in, out);
 	reset_cmd_state(data, &args);
 }
 
