@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:20:39 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/08 23:59:12 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/21 12:58:58 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ int	shell_export(char **args, t_data *data)
 	int	changed;
 
 	if (!args || !args[0])
+	{
+		export_no_args(data->shell_envp);
 		return (EXIT_SUCCESS);
+	}
 	i = 0;
 	status = 0;
 	changed = 0;
