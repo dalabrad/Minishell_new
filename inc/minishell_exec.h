@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:32:53 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:27:16 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/21 12:57:54 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,12 @@ void					delete_shell_envp_node(t_env **shell_envp,
 							char *VAR_NAME);
 size_t					shell_envp_size(t_env *shell_envp_node);
 
+//	src/environment/shell_envp_list_utils_3.c
+t_env					*copy_envp_list(t_env *shell_envp);
+
+//	src/environment/shell_envp_list_utils_4.c
+void					sort_envp_list(t_env *head);
+
 //	src/environment/shell_envp_array_resync.c 
 int						rebuild_array_visible(char ***dst_envp,
 							t_env *env_list);
@@ -163,6 +169,7 @@ void					free_data(t_data *data);
 //------BUILT-INS-------------------------------
 ////////////////////////////////////////////////
 
+void					export_no_args(t_env *shell_envp);
 int						shell_export(char **args, t_data *data);
 int						shell_unset(char **args, t_data *data);
 int						shell_env(char **args, t_data *data);
