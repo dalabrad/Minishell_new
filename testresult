@@ -1,36 +1,36 @@
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────
-│ #   │ Descripción                       │ Comando(s)                                 │ OUT   │ ERR   │ STS   │
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────
-│ 1   │ export + env: crea y lee VAR1      │ export VAR1=hola; env | grep VAR1          │ OK    │ NO    │ OK    │
-│ 2   │ export con espacios (VAR2)         │ export VAR2="con espacios"; env | grep VAR2│ NO    │ OK    │ OK    │
-│ 3   │ reasignación VAR1                  │ export VAR1=adios; env | grep VAR1         │ OK    │ NO    │ OK    │
-│ 4   │ unset TMPVAR                       │ export TMPVAR=test; env | grep '^TMPVAR='… │ NO    │ NO    │ OK    │
-│ 5   │ pwd / cd / pwd                     │ pwd; cd /; pwd                             │ NO    │ NO    │ OK    │
-│ 6   │ cd .. y pwd                        │ cd ..; pwd                                 │ NO    │ NO    │ OK    │
-│ 7   │ cd noexiste (status)               │ cd noexiste; echo \$?                      │ NO    │ NO    │ OK    │
-│ 8   │ cd . y pwd                         │ cd .; pwd                                  │ NO    │ NO    │ OK    │
-│ 9   │ cd (HOME) y pwd                    │ cd; pwd                                    │ NO    │ NO    │ OK    │
-│ 10  │ /bin/ls ok (status)                │ /bin/ls >/dev/null; echo \$?               │ NO    │ NO    │ OK    │
-│ 11  │ /bin/ls fallo (status)             │ /bin/ls noexiste; echo \$?                 │ NO    │ NO    │ OK    │
-│ 12  │ /bin/echo hola mundo               │ /bin/echo hola mundo                       │ NO    │ OK    │ OK    │
-│ 13  │ echo "hola mundo"                  │ echo "hola mundo"                          │ NO    │ OK    │ OK    │
-│ 14  │ echo con espacios extra            │ echo "hola     con   espacios"             │ NO    │ OK    │ OK    │
-│ 15  │ echo texto con tubería literal     │ echo "cat lol.c | grep main"               │ NO    │ OK    │ OK    │
-│ 16  │ variable X sin comillas            │ export X=42; echo \$X                      │ NO    │ NO    │ OK    │
-│ 17  │ variable X con comillas dobles     │ export X=42; echo "\$X"                    │ NO    │ NO    │ OK    │
-│ 18  │ variable X dentro de simples       │ export X=42; echo '\$X'                    │ NO    │ NO    │ OK    │
-│ 19  │ echo \$ (vacío en bash)            │ echo \$                                    │ NO    │ OK    │ OK    │
-│ 20  │ echo "\$"                          │ echo "\$"                                  │ NO    │ OK    │ OK    │
-│ 21  │ comilla simple sin cerrar (error)  │ echo '\$                                   │ NO    │ NO    │ OK    │
-│ 22  │ relative path ./rel42.sh           │ ./rel42.sh                                 │ NO    │ NO    │ OK    │
-│ 23  │ /bin/ls simple                     │ /bin/ls | head -n 3                        │ NO    │ OK    │ OK    │
-│ 24  │ retorno ok y error                 │ /bin/ls >/dev/null; echo \$?; /bin/ls noex…│ NO    │ NO    │ OK    │
-│ 25  │ /bin/ls -l (argumentos)            │ /bin/ls -l >/dev/null                      │ NO    │ OK    │ OK    │
-│ 26  │ /bin/ls -la /tmp                   │ /bin/ls -la /tmp >/dev/null                │ NO    │ OK    │ OK    │
-│ 27  │ echo hola                          │ echo hola                                  │ NO    │ OK    │ OK    │
-│ 28  │ echo -n "sin salto"                │ echo -n "sin salto"                        │ NO    │ OK    │ OK    │
-│ 29  │ echo "hola" "mundo"                │ echo "hola" "mundo"                        │ NO    │ OK    │ OK    │
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────────────────────────────────
+│ #   │ Descripción                       │ Comando(s)                                  │ OUT   ││
+──────────────────────────────────────────────────────────────────────────────────────────────────
+│ 1   │ export + env: crea y lee VAR1      │ export VAR1=hola; env | grep VAR1          │ ✅    ││
+│ 2   │ export con espacios (VAR2)         │ export VAR2="con espacios"; env | grep VAR2│ ✅    ││
+│ 3   │ reasignación VAR1                  │ export VAR1=adios; env | grep VAR1         │ ✅    ││
+│ 4   │ unset TMPVAR                       │ export TMPVAR=test; env | grep '^TMPVAR='… │ ✅    ││
+│ 5   │ pwd / cd / pwd                     │ pwd; cd /; pwd                             │ ✅    ││
+│ 6   │ cd .. y pwd                        │ cd ..; pwd                                 │ ✅    ││
+│ 7   │ cd noexiste (status)               │ cd noexiste; echo \$?                      │ ✅    ││
+│ 8   │ cd . y pwd                         │ cd .; pwd                                  │ ✅    ││
+│ 9   │ cd (HOME) y pwd                    │ cd; pwd                                    │ ✅    ││
+│ 10  │ /bin/ls ok (status)                │ /bin/ls >/dev/null; echo \$?               │ ✅    ││
+│ 11  │ /bin/ls fallo (status)             │ /bin/ls noexiste; echo \$?                 │ ✅    ││
+│ 12  │ /bin/echo hola mundo               │ /bin/echo hola mundo                       │ ✅    ││
+│ 13  │ echo "hola mundo"                  │ echo "hola mundo"                          │ ✅    ││
+│ 14  │ echo con espacios extra            │ echo "hola     con   espacios"             │ ✅    ││
+│ 15  │ echo texto con tubería literal     │ echo "cat lol.c | grep main"               │ ✅    ││ 
+│ 16  │ variable X sin comillas            │ export X=42; echo \$X                      │ ✅    ││
+│ 17  │ variable X con comillas dobles     │ export X=42; echo "\$X"                    │ ✅    ││
+│ 18  │ variable X dentro de simples       │ export X=42; echo '\$X'                    │ ✅    ││
+│ 19  │ echo \$ (vacío en bash)            │ echo \$                                    │ ✅    ││
+│ 20  │ echo "\$"                          │ echo "\$"                                  │ ✅    ││
+│ 21  │ comilla simple sin cerrar (error)  │ echo '\$                                   │ ✅    ││
+│ 22  │ relative path ./rel42.sh           │ ./rel42.sh                                 │ ✅    ││
+│ 23  │ /bin/ls simple                     │ /bin/ls | head -n 3                        │ ✅    ││
+│ 24  │ retorno ok y error                 │ /bin/ls >/dev/null; echo \$?; /bin/ls noex…│ ✅    ││
+│ 25  │ /bin/ls -l (argumentos)            │ /bin/ls -l >/dev/null                      │ ✅    ││
+│ 26  │ /bin/ls -la /tmp                   │ /bin/ls -la /tmp >/dev/null                │ ✅    ││
+│ 27  │ echo hola                          │ echo hola                                  │ ✅    ││
+│ 28  │ echo -n "sin salto"                │ echo -n "sin salto"                        │ ✅    ││
+│ 29  │ echo "hola" "mundo"                │ echo "hola" "mundo"                        │ ✅    ││
+──────────────────────────────────────────────────────────────────────────────────────────────────
 
 ✅ echo $ → línea vacía.
 
@@ -76,32 +76,27 @@ echo "line1" >>c.txt
 echo "line2" >>c.txt
 cat c.txt    # → line1 + line2
 
-
-cat <infile || echo hola
+✅ cat <infile || echo hola
 cmd arg > infile1 arg arg >infile1
 echo bai > result echo ez >result
 
-
-echo bai > result echo ez >result2 echo jaja >result3
+✅ echo bai > result echo ez >result2 echo jaja >result3
 echo yas >> result >> yes >>result2 echo yis >>result3
 
-
-echo $$$$$USERyes$USER
+✅ echo $$$$$USERyes$USER
 11639761163976uxmancis
 
-ls | " HOLA " | Uxu << >> hola, len = 30
+✅ ls | " HOLA " | Vane << >> hola, len = 30
 
-"Mostrar entrada (while waiting for comando nuevo)
-replicar entrada bash
-
-*en bash no lo pone, pero poner path suele ser típico"
-"Tener historial funcional de lo que hemos escrito en terminal, 
+✅ "Tener historial funcional de lo que hemos escrito en terminal, 
 flechita arriba - flechita abajo para navegar por historial"
-"Acceder a archivos en distintas carpetas
-Buscar y ejecutar ejecutable correcto (variable PATH, rutas relativas y absolutas)
+
+✅ "Acceder a archivos en distintas carpetas
+Buscar y ejecutar ejecutable correcto (pwd, cd .., variable PATH, rutas relativas y absolutas)
 - Ruta relativa desde ubicación actual inc/minishell.h
 - Ruta absoluta: home/etc/uxmancis/Desktop/inc/minishell.h"
-"Recepción de señal: máx 1 variable global.
+
+✅ "Recepción de señal: máx 1 variable global.
 1) Señales ctrl-C, ctrl-D, ctrl-\ ...
 *En la variable global podemos ir guardando la señal que tenemos que devolver (uso común de variable global)"
 "No interpretar: comillas sin cerrar, caracteres especiales no especificados (\ ; )
@@ -116,23 +111,51 @@ Buscar y ejecutar ejecutable correcto (variable PATH, rutas relativas y absoluta
 *Se trata de caracteres que en bash tienen X funcionalidad, pero que en nuestro proyecto Minishell no se nos exige que implantemos."
 "‘ → no debe interpretar metacaracteres en la secuencia entrecomillada
 
-P.ej.: 
-1) echo 'hola $USER' --> respuesta en bash: hola $USER
-2) echo ""'hola $USER'"" --> respuesta en bash: 'hola uxmancis'
-3) echo '""hola $USER""' --> respuesta en bash: ""hola $USER""
+✅ Básicos
+echo 'hola $USER'             # hola $USER
+echo "hola $USER"             # hola <usuario>
+echo '""hola $USER""'         # ""hola $USER""
+echo ""                       # (línea en blanco)
+echo ''                       # (línea en blanco)
 
-*El primer tipo de comillas define si se va a expandir o no la variable de entorno
-*Metacaracter = caracter con funcionalidad
+✅ Concatenación/vars
+echo "$USER$USER"             # <usuario><usuario>
+echo $USER$USER               # <usuario><usuario>
+echo "$?x"                    # <status>x
 
-Poderes: 
+✅ Casos límite de $
+echo $                        # $ (literal si no hay nombre)
+echo "$"                      # $
+echo "$1"                     # (si no soportas posicionales -> cadena vacía / literal según diseño)
+
+✅ scapes simples (si los contemplas)
+echo "\$USER"                 # $USER (si tratas '\' dentro de dobles)
+
+✅ echo '"comillas dobles"'      # "comillas dobles"
+
+✅ Redirecciones (con espacios y comillas)
+echo hola > "a b.txt"         # crea/overwrite
+cat "a b.txt"                 # hola
+
+✅ echo mundo >> 'a b.txt'       # append
+cat "a b.txt"                 # hola\nmundo
+
+✅ Heredoc (si lo tienes):
+echo "\$USER" → $USER
+
+✅ cat <<EOF con hola $USER → hola vlorenzo
+cat <<'EOF' con hola $USER → hola $USER
+echo '""hola $USER""' → ""hola $USER""
+
+✅ Poderes: 
  ' > $ Si $ = metacaracter, pero si antes de $ ', entonces $ no es un metacaracter = no cumple su función de metacaracter, actúa como caracter normal.
  '  vs. "", según cuál llega antes
 
-*Pueden darse distintas combinaciones"
+✅ *Pueden darse distintas combinaciones"
 "“ → no debe interpretar metacaracteres en la secuencia entrecomillada
  Excepción: $
 
-Con "" $ es el único metacaracter"
+✅ Con "" $ es el único metacaracter"
 "Implementar redirecciones:
 < redirigir input (entrada). 
 P.ej.: cat Makefile = cat < Makefile

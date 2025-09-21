@@ -6,7 +6,7 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:51:38 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/08/07 23:42:10 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/19 19:07:44 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,28 +65,28 @@ const char	*token_type_str(t_TokenType type)
 }
 
 // SET COMMAND TYPE
-void	set_command_type(t_tokens *tokens)
+static int is_operator(const t_tokens *t)
 {
-	t_tokens	*tmp;
+    return (t->type == RED_IN || t->type == RED_OUT
+         || t->type == APPEND_OUT || t->type == HEREDOC);
+}
 
-	tmp = tokens;
-	while (tmp)
-	{
-		if (tmp->type == RED_IN || tmp->type == RED_OUT
-			|| tmp->type == HEREDOC || tmp->type == APPEND_OUT)
-		{
-			tmp = tmp->next;
-			if (tmp)
-				tmp = tmp->next;
-			continue ;
-		}
-		if (tmp->type == ARG || tmp->type == OPTION || tmp->type == PATH)
-		{
-			tmp->type = COMMAND;
-			break ;
-		}
-		tmp = tmp->next;
-	}
+/* Marca el PRIMER token que no sea operador como COMMAND,
+   aunque venga entre comillas. */
+void set_command_type(t_tokens *head)
+{
+    t_tokens *t = head;
+    int found = 0;
+
+    while (t)
+    {
+        if (!found && !is_operator(t) && t->type != ERROR)
+        {
+            t->type = COMMAND;
+            found = 1;
+        }
+        t = t->next;
+    }
 }
 
 // SPLIT WORDS + QUOTES

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_process_segments.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:36:10 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/16 15:20:14 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/19 22:37:10 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	process_single_segment(char *segment, t_tokens **token, t_data *data,
 	if (!*token)
 		return ;
 	expand_tokens(*token, data->shell_envp, g_status);
-	current = tokens_to_cmd(*token);
+	current = tokens_to_cmd(*token, data->shell_envp, g_status);
 	if (!current)
 	{
 		free_tokens_list(*token);

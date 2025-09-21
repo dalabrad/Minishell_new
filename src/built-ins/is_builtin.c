@@ -3,31 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:02:44 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/17 12:55:09 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/19 21:56:24 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
-
-static void	dbg_print_argv(char **av)
-{
-	int	k;
-
-	k = 0;
-	ft_putstr_fd("[argv]", 2);
-	while (av && av[k])
-	{
-		ft_putstr_fd(" <", 2);
-		ft_putstr_fd(av[k], 2);
-		ft_putstr_fd(">", 2);
-		k++;
-	}
-	ft_putstr_fd("\n", 2);
-}
 
 int	is_builtin(const char *s)
 {
@@ -53,7 +37,6 @@ int	run_builtin(t_cmd *cmd, t_data *data)
 	a = cmd->args;
 	if (!ft_strcmp(a[0], "echo"))
 	{
-		dbg_print_argv(cmd->args);
 		return (shell_echo(a + 1, data));
 	}
 	if (!ft_strcmp(a[0], "pwd"))

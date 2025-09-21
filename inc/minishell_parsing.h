@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parsing.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:21:52 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/17 12:39:06 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/20 15:22:59 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_PARSING_H
+#ifndef	MINISHELL_PARSING_H
 # define MINISHELL_PARSING_H
 
 //////////////////////////////////
@@ -36,6 +36,20 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+//////////////////////////////////
+// COLOURS
+//////////////////////////////////
+#define C_RST  "\033[0m"
+#define C_YEL  "\033[38;5;226m"
+#define C_ORG  "\033[38;5;214m"
+#define C_RED  "\033[38;5;196m"
+#define C_GRY  "\033[38;5;245m"
+#define C_WHT  "\033[1;38;5;231m"
+#define C_CYAN "\033[38;5;51m"
+#define C_PINK "\033[38;5;218m"
+#define C_LAV "\033[38;5;183m"
+#define C_TTL  "\033[1;38;5;231m"
 
 //////////////////////////////////
 //-----MINISHELL PROMTP----------
@@ -75,17 +89,26 @@ typedef struct s_pipes
 	struct s_pipes		*next;
 }						t_pipes;
 
-// TOKENS
-struct					s_tokens
+// QUOTE TYPE
+typedef enum e_quote_type
 {
-	int					was_quoted;
-	int					s_quoted;
-	int					d_quoted;
-	int					skip;
-	char				*str;
-	t_TokenType			type;
-	t_tokens			*next;
-};
+	NO_QUOTE = 0,
+	DOUBLE_QUOTE,
+	SINGLE_QUOTE
+}	t_quote_type;
+
+// TOKENS
+typedef struct s_tokens
+{
+	int             was_quoted;
+	int             s_quoted;
+	int             d_quoted;
+	int             skip;
+	char           *str;
+	t_TokenType     type;
+	t_quote_type    quote_type;
+	struct s_tokens *next;
+}	t_tokens;
 
 // COMMS
 typedef struct s_comms
@@ -173,17 +196,10 @@ void					process_segments(char **segments, t_tokens **tokens,
 							size_t n, t_data *data);
 
 // TOK_TO_CMD
-t_cmd					*tokens_to_cmd(t_tokens *tokens);
+t_cmd 					*tokens_to_cmd(t_tokens *tokens, t_env *env, int last_status);
 
-// EXPAND & FOR EXEC
-char					*get_env_value_from_list(const char *name, t_env *env);
-void					append_char_to_result(char **result, char c);
-char					*expand_variables(const char *str, t_env *env,
-							int was_quoted, int last_status);
-char					*expand_loop(const char *str, t_env *env,
-							int last_status, char *result);
-void					expand_tokens(t_tokens *tokens, t_env *env,
-							int last_status);
+// FT_EXPAND
+void					expand_tokens(t_tokens *head, t_env *env, int last_status);
 
 // UTILS EXPAND
 char					*ft_strjoin_free(char *s1, char *s2);
@@ -192,9 +208,11 @@ char					*get_env_value_from_list(const char *name, t_env *env);
 int						handle_exit_status(char **result, int last_status);
 size_t					handle_variable(const char *str, size_t i,
 							char **result, t_env *env);
+char					*expand_core(const char *str, t_env *env, int last_status);
 
 // UTILS HEREDOC
-int						process_heredoc_runtime(const char *delimiter);
+int						process_heredoc_runtime(const char *delimiter, int quoted, t_env *env, int last_status);
+
 
 // GET TOKENS EVERYWHERE
 t_tokens				*get_tokens(void);
