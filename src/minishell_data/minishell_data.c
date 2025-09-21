@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:25:36 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:27:23 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/21 15:39:13 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static void	fill_data(t_data *data)
 	data->pipes[0][W_PIPE] = -1;
 	data->pipes[1][R_PIPE] = -1;
 	data->pipes[1][W_PIPE] = -1;
+	data->in = -1;
+	data->out = -1;
 	data->tokens_by_segment = NULL;
 }
 

@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:32:53 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/21 12:57:54 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/21 16:18:04 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ struct					s_data
 	t_tokens			**tokens_by_segment;
 	size_t				nbr_cmds;
 	char				**envp_exec;
+	int					in;
+	int					out;
 };
 
 ////////////////////////////////////////////////
@@ -176,6 +178,7 @@ int						shell_env(char **args, t_data *data);
 int						shell_echo(char **args, t_data *data);
 int						shell_cd(char **args, t_data *data);
 int						shell_pwd(char **args, t_data *data);
+int						get_exit_code(char *arg, bool *error);
 int						shell_exit(char **args, t_data *data);
 
 ////////////////////////////////////////////////

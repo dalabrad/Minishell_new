@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 19:05:30 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/17 12:56:46 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/21 16:23:34 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@ int extern	g_status;
 
 static int	save_stdio(int *in_bk, int *out_bk)
 {
+	if (*in_bk >= 0)
+		close(*in_bk);
 	*in_bk = dup(STDIN_FILENO);
 	if (*in_bk < 0)
 		return (-1);
+	if (*out_bk >= 0)
+		close(*out_bk);
 	*out_bk = dup(STDOUT_FILENO);
 	if (*out_bk < 0)
 	{
@@ -32,12 +36,9 @@ static int	save_stdio(int *in_bk, int *out_bk)
 /* Ejecuta un builtin aplicando redirecciones SIN salir de la shell en error */
 void	one_builtin_with_redir(t_data *data, t_cmd *cmd)
 {
-	int	in_bk;
-	int	out_bk;
-
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
-	if (save_stdio(&in_bk, &out_bk) < 0)
+	if (save_stdio(&data->in, &data->out) < 0)
 	{
 		g_status = 1;
 		return ;
@@ -45,15 +46,15 @@ void	one_builtin_with_redir(t_data *data, t_cmd *cmd)
 	if (cmd->file_in && file_in_redir(cmd) < 0)
 	{
 		g_status = 1;
-		restore_stdio(in_bk, out_bk);
+		restore_stdio(data->in, data->out);
 		return ;
 	}
 	if (cmd->file_out && file_out_redir(cmd) < 0)
 	{
 		g_status = 1;
-		restore_stdio(in_bk, out_bk);
+		restore_stdio(data->in, data->out);
 		return ;
 	}
 	g_status = run_builtin(cmd, data);
-	restore_stdio(in_bk, out_bk);
+	restore_stdio(data->in, data->out);
 }
