@@ -1,4 +1,22 @@
 # Minishell
+```bash
+
+./minishell
+ )(  ) ##   ##  ###  ##   ##  ###        (  )( 
+(  )(  ### ###   #   ###  ##   #          )(  )
+ )(  ) ## # ##   #   #### ##   #         (  )( 
+(  )(  ##   ##   #   ## ####   #          )(  )
+ )(  ) ##   ##  ###  ##   ##  ###        (  )( 
+ )(  ) █████  █   █  █████  █      █      )(  )
+(  )(  █      █   █  █      █      █     (  )( 
+ )(  ) █████  █████  █████  █      █      )(  )
+(  )(      █  █   █  █      █      █     (  )( 
+ )(  ) █████  █   █  █████  █████  █████  )(  )
+
+minishell>> echo as beautiful as a seashell
+minishell>> as beautiful as a seashell
+
+´´´
 
 This project is a simplified Unix shell developed in C. It replicates the basic behavior of Bash: command input, parsing, execution, redirections, pipes, environment variables, built-ins, and signal handling. The goal is to understand how a shell works internally and manage memory, file descriptors, and system calls at a low level.
 
@@ -60,8 +78,40 @@ echo $NAME
     Makefile – Compilation rules
 
     .minishell_history – Saved command history (created at runtime)
+    
+# Installation
 
-## Bonus
+## Compilation: Make rules
+
+Compile the project by running `make` in your Terminal. The following rules are also available:
+
+| Command            | Description                                                 |
+|--------------------|-------------------------------------------------------------|
+| `make`             | Compiles the project and generates the `minishell` binary.  |
+| `make re`          | Equivalent to `fclean` followed by `make`.                  |
+| `make run`         | Equivalent to `fclean` followed by `make re` and ./minishell. |
+| `make gdb`         | Compiles the project with debugging symbols (`-g3`).        |
+| `make valgrind`    | Compiles with `-g3` and flags useful for running Valgrind.  |
+| `make clean`       | Removes `.o` files.                                         |
+| `make fclean`      | Removes executables and `.o` files.                         |
+|--------------------|-------------------------------------------------------------|
+---
+
+## Execution: how to use our mini
+
+Once compiled, you can start the minishell with:
+
+```bash
+make run
+```
+
+or
+
+```bash
+./minishell
+```
+
+## Extras
 
     Handling of quotes with and without expansion
 

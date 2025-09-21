@@ -123,4 +123,72 @@ env | grep "^X="'
   echo "${BOLD}${GREEN}Suite finished.${RESET}"
 }
 
+  # ===== REDIRS: "la última gana" (stdout) =====
+  run_case "redir: >a >b (última gana)" $'rm -f a b
+echo hola > a > b
+echo "--A--"
+cat a 2>/dev/null
+echo "--B--"
+cat b'
+
+  run_case "redir: >>a >b (append vs truncate; gana >b)" $'rm -f a b
+echo pre > a
+echo hola >> a > b
+echo "--A--"
+cat a 2>/dev/null
+echo "--B--"
+cat b'
+
+  run_case "redir: > filename con espacios" $'rm -f "a b.txt"
+echo hola > "a b.txt"
+cat "a b.txt"'
+
+  run_case "redir: >> append con espacios" $'rm -f "a b.txt"
+echo hola > "a b.txt"
+echo mundo >> "a b.txt"
+cat "a b.txt"'
+
+  # ===== STDIN múltiples: la última gana =====
+  run_case "stdin: cat <in1 <in2 (última gana)" $'printf "X\n" > in1
+printf "Y\n" > in2
+cat < in1 < in2'
+
+  # ===== HEREDOC =====
+  run_case "heredoc: unquoted expande" $'export VAR=OK
+cat <<EOF
+hola $VAR
+EOF'
+
+  run_case "heredoc: quoted no expande" $'export VAR=OK
+cat <<'\''EOF'\''
+hola $VAR
+EOF'
+
+  run_case "heredoc: dos heredocs (última gana)" $'export VAR=OK
+cat <<ONE <<'\''TWO'\''
+A:$VAR
+ONE
+B:$VAR
+TWO'
+
+  # ===== PIPE + REDIRS (redir manda en el FD) =====
+  run_case "pipe+redir: echo | cat > out.txt" $'rm -f out.txt
+echo hola | cat > out.txt
+cat out.txt'
+
+  run_case "pipe+redir: cat <in | tr a-z A-Z > out.txt" $'rm -f out.txt
+printf "hola\n" > in
+cat < in | tr a-z A-Z > out.txt
+cat out.txt'
+
+  # ===== Varias redirs stdout: solo la última recibe =====
+  run_case "redir: >>a >b >c (solo c recibe)" $'rm -f a b c
+echo hola >> a > b > c
+echo "--A--"
+cat a 2>/dev/null
+echo "--B--"
+cat b 2>/dev/null
+echo "--C--"
+cat c'
+
 main "$@"
