@@ -6,103 +6,99 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 19:45:33 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/19 22:19:03 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/24 21:55:24 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
-#include "minishell_parsing.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <signal.h>
-#include <sys/wait.h>
 
-/* expansión para heredoc sin respetar comillas: expande $ y $? */
-static char *expand_heredoc_line(const char *s, t_env *env, int last_status)
+extern int	g_status;
+
+static int	hd_is_delim(const char *line, const char *delim)
 {
-	size_t	i = 0;
-	char	*out = ft_strdup("");
+	size_t	len;
 
-	if (!out) return NULL;
-	while (s && s[i])
-	{
-		if (s[i] == '$')
-		{
-			if (s[i + 1] == '?')
-			{
-				i += 2;
-				if (handle_exit_status(&out, last_status)) { free(out); return NULL; }
-				continue;
-			}
-			if (s[i + 1] && (ft_isalnum(s[i + 1]) || s[i + 1] == '_'))
-			{
-				i++;
-				i = handle_variable(s, i, &out, env);
-				continue;
-			}
-			out = ft_strjoin_char_free(out, '$');
-			if (!out) return NULL;
-			i++;
-			continue;
-		}
-		out = ft_strjoin_char_free(out, s[i]);
-		if (!out) return NULL;
-		i++;
-	}
-	return out;
+	if (!line || !delim)
+		return (0);
+	len = ft_strlen(line);
+	if (len && line[len - 1] == '\n')
+		len--;
+	if (ft_strncmp(line, delim, len) == 0 && delim[len] == '\0')
+		return (1);
+	return (0);
 }
 
-static void	heredoc_child(const char *delim, int quoted, t_env *env, int last_status)
+static int	hd_write_line(int fd, const char *s)
+{
+	ssize_t	w;
+	size_t	len;
+
+	if (!s)
+		return (0);
+	len = ft_strlen(s);
+	w = write(fd, s, len);
+	if (w < 0 || (size_t)w != len)
+		return (-1);
+	return (0);
+}
+
+static int	hd_process_line(int fd, char **line, int quoted, t_env *env)
+{
+	char	*tmp;
+
+	if (!quoted)
+	{
+		if (hd_expand_line(line, env) < 0)
+			return (-1);
+	}
+	tmp = hd_add_nl(*line);
+	if (!tmp)
+		return (-1);
+	free(*line);
+	*line = tmp;
+	if (hd_write_line(fd, *line) < 0)
+		return (-1);
+	return (0);
+}
+
+int	heredoc_loop(int fd, const char *delim, int quoted, t_env *env)
 {
 	char	*line;
-	int		fd;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_IGN);
-
-	fd = open("/tmp/1", O_CREAT | O_WRONLY | O_TRUNC, 0600);
-	if (fd < 0)
-		_exit(1);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, delim) == 0)
-			break;
-		if (!quoted)
+		if (!line)
+			break ;
+		if (hd_is_delim(line, delim))
 		{
-			char *exp = expand_heredoc_line(line, env, last_status);
-			if (!exp) { free(line); close(fd); _exit(1); }
-			write(fd, exp, ft_strlen(exp));
-			write(fd, "\n", 1);
-			free(exp);
+			free(line);
+			return (0);
 		}
-		else
+		if (hd_process_line(fd, &line, quoted, env) < 0)
 		{
-			write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
+			free(line);
+			return (-1);
 		}
 		free(line);
 	}
-	free(line);
-	close(fd);
-	_exit(0);
+	return (0);
 }
 
-int	process_heredoc_runtime(const char *delimiter, int quoted, t_env *env, int last_status)
+int	heredoc_loop_open(const char *delim, int quoted, t_env *env,
+		char **out_path)
 {
-	pid_t	pid;
-	int		status;
+	int	fd;
 
-	status = 0;
-	pid = fork();
-	if (pid < 0)
-		return (error_msg(FORK_ERROR), -1);
-	else if (pid == 0)
-		heredoc_child(delimiter, quoted, env, last_status);
-	else
-		waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status))
+	if (hd_make_tmp(&fd, out_path) < 0)
+		return (-1);
+	if (heredoc_loop(fd, delim, quoted, env) < 0)
+	{
+		close(fd);
+		return (-1);
+	}
+	if (close(fd) < 0)
 		return (-1);
 	return (0);
 }

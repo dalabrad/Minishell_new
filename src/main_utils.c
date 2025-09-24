@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 00:29:51 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/21 19:05:53 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:40:55 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
 
-// RETORE STDIN/OUT
 void	restore_stdio(int in_bk, int out_bk)
 {
 	if (in_bk >= 0)
@@ -27,7 +26,6 @@ void	restore_stdio(int in_bk, int out_bk)
 		close(out_bk);
 }
 
-// RESET COMMANDS
 void	reset_cmd_state(t_data *data, t_cleanup_args *args)
 {
 	free_cmd_list(data->first_cmd);
@@ -70,7 +68,6 @@ void	close_in_out(int in, int out)
 		close(out);
 }
 
-// MAIN LOOP CALLING SEGMENTS/PIPES FOR TOKENIZATION
 void	main_loop(t_data *data)
 {
 	char	*line;

@@ -6,15 +6,13 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:15:13 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/01 23:55:13 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:56:37 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
 
-
-/* ---- EXIT COMMAND ---- */
 int	is_exit_command(char **line, t_data *data)
 {
 	if (line && line[0] && ft_strcmp(line[0], "exit") == 0)
@@ -25,7 +23,6 @@ int	is_exit_command(char **line, t_data *data)
 	return (0);
 }
 
-/* ---- CLEAN STRUCT T_PIPES ---- */
 t_pipes	*clean_struct(t_pipes *args)
 {
 	t_pipes	*temp;
@@ -41,7 +38,6 @@ t_pipes	*clean_struct(t_pipes *args)
 	return (temp);
 }
 
-/* ---- FREE TOKENS ---- */
 void	free_tokens_list(t_tokens *head)
 {
 	t_tokens	*tmp;
@@ -56,7 +52,6 @@ void	free_tokens_list(t_tokens *head)
 	}
 }
 
-/* ---- CLEAN-UP SEGMENTS/TOKENIZED-ARGS ARRAY ---- */
 void	cleanup(char **segments, t_tokens **tokens, size_t n)
 {
 	size_t	j;

@@ -18,26 +18,25 @@ EXEC_SRCS = $(wildcard src/cmd_execution/*.c) \
             $(wildcard src/error_messages/*.c) \
             $(wildcard src/minishell_data/*.c) \
             $(wildcard src/minishell_exec/*.c) \
-			 $(wildcard src/main_utils.c)
+            $(wildcard src/main_utils.c)
 EXEC_OBJS = $(EXEC_SRCS:.c=.o)
 
 MINISHELL_PARSING_LIB = ./inc/minishell_parsing.a
-PARSING_SRCS = $(wildcard src/parsing/*.c) 
+PARSING_SRCS = $(wildcard src/parsing/*.c)
 PARSING_OBJS = $(PARSING_SRCS:.c=.o)
 
 MINISHELL_SIGNALS_LIB = ./inc/minishell_signals.a
-SIGNALS_SRCS = $(wildcard src/signals/*.c) 
+SIGNALS_SRCS = $(wildcard src/signals/*.c)
 SIGNALS_OBJS = $(SIGNALS_SRCS:.c=.o)
 
-MAIN = main.c
-TEST_D = main_test_d.c
+MAIN_SRCS = main.c src/banner.c
 
 # ─────────────────────────────────────────────────────────────
 # COMPILER
 # ─────────────────────────────────────────────────────────────
 
 CC = cc
-CFLAGS = -g3 -Iinc -Ilibft/inc 
+CFLAGS = -g3 -Iinc -Ilibft/inc
 LDFLAGS = -lreadline -lncurses
 
 # ─────────────────────────────────────────────────────────────
@@ -50,9 +49,9 @@ all: $(NAME)
 # BUILD EXEC
 # ─────────────────────────────────────────────────────────────
 
-$(NAME): $(LIBFT) $(AU_LIB) $(MINISHELL_EXEC_LIB) $(MINISHELL_PARSING_LIB) $(MINISHELL_SIGNALS_LIB) $(MAIN)
+$(NAME): $(LIBFT) $(AU_LIB) $(MINISHELL_EXEC_LIB) $(MINISHELL_PARSING_LIB) $(MINISHELL_SIGNALS_LIB) $(MAIN_SRCS)
 	@echo "$(YELLOW)Compiling ./minishell executable...$(RESET)"
-	$(CC) $(CFLAGS) -o $(NAME) $(MAIN) \
+	$(CC) $(CFLAGS) -o $(NAME) $(MAIN_SRCS) \
 		-Wl,--start-group \
 			$(MINISHELL_EXEC_LIB) \
 			$(MINISHELL_PARSING_LIB) \
@@ -62,6 +61,7 @@ $(NAME): $(LIBFT) $(AU_LIB) $(MINISHELL_EXEC_LIB) $(MINISHELL_PARSING_LIB) $(MIN
 		-Wl,--end-group \
 		$(LDFLAGS)
 	@echo "$(GREEN)./minishell executable created successfully.$(RESET)"
+	
 # ─────────────────────────────────────────────────────────────
 # GDB DEBUGGING V VLORENZO
 # ─────────────────────────────────────────────────────────────
@@ -96,7 +96,7 @@ $(LIBFT):
 $(AU_LIB): $(AU_OBJS)
 	@echo "$(YELLOW)Compiling array_utils.a library...$(RESET)"
 	@ar rcs $(AU_LIB) $(AU_OBJS)
-	@echo "$(GREEN)array_utils.a created successfully.$(RESET)"	
+	@echo "$(GREEN)array_utils.a created successfully.$(RESET)"
 
 $(MINISHELL_PARSING_LIB): $(PARSING_OBJS)
 	@echo "$(YELLOW)Compiling minishell_parsing.a library...$(RESET)"
@@ -119,7 +119,7 @@ $(MINISHELL_SIGNALS_LIB): $(SIGNALS_OBJS)
 
 clean:
 	@echo "$(YELLOW)Deleting all the object files...$(RESET)"
-	@$(RM) $(EXEC_OBJS) $(PARSING_OBJS) $(SIGNALS_OBJS) $(AU_OBJS) .minishell_history
+	@$(RM) $(EXEC_OBJS) $(PARSING_OBJS) $(SIGNALS_OBJS) $(AU_OBJS) $(BANNER_OBJS) .minishell_history
 	@make -C $(LIBFT_DIR) clean
 	@echo "$(GREEN)All the object files deleted successfully.$(RESET)"
 
@@ -132,6 +132,7 @@ fclean: clean
 	@$(RM) $(MINISHELL_EXEC_LIB) $(MINISHELL_PARSING_LIB) $(MINISHELL_SIGNALS_LIB) $(AU_LIB) $(NAME)
 	@make -C $(LIBFT_DIR) fclean
 	@echo "$(GREEN)Everything deleted successfully.$(RESET)"
+
 # ─────────────────────────────────────────────────────────────
 # RE
 # ─────────────────────────────────────────────────────────────

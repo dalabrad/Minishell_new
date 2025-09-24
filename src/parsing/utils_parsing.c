@@ -6,19 +6,12 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:51:18 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/01 21:22:42 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:50:32 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
-
-const char	*skip_space(const char *s)
-{
-	while ((*s == ' ' || *s == '\t') && *s != 0)
-		s++;
-	return (s);
-}
 
 void	update_quote_state(char c, int *in_s, int *in_d, int prev_escape)
 {
