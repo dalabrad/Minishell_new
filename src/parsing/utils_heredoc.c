@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 19:45:33 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/24 21:55:24 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:59:25 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ int	heredoc_loop(int fd, const char *delim, int quoted, t_env *env)
 	return (0);
 }
 
-int	heredoc_loop_open(const char *delim, int quoted, t_env *env,
-		char **out_path)
+int	heredoc_loop_open(const char *delim, int quoted, t_env *env)
 {
 	int	fd;
 
-	if (hd_make_tmp(&fd, out_path) < 0)
+	fd = open("/tmp/minishell_heredoc", O_CREAT | 01 | O_TRUNC, 0000644);
+	if (fd < 0)
 		return (-1);
 	if (heredoc_loop(fd, delim, quoted, env) < 0)
 	{

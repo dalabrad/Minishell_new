@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_cmd2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:59:27 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/24 18:57:51 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/25 17:00:31 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	unquote_is_quoted(char **s)
 static int	handle_heredoc_case(t_cmd *cmd, t_tokens **tok, t_env *env)
 {
 	char	*delim;
-	char	*path;
 	int		quoted;
 	int		rc;
 
@@ -45,13 +44,13 @@ static int	handle_heredoc_case(t_cmd *cmd, t_tokens **tok, t_env *env)
 	if (!delim)
 		return (-1);
 	quoted = unquote_is_quoted(&delim);
-	rc = run_heredoc(delim, quoted, env, &path);
+	rc = run_heredoc(delim, quoted, env);
 	free(delim);
 	if (rc == 1)
 		return (-2);
 	if (rc != 0)
 		return (-1);
-	if (set_file_in(cmd, path) != 0)
+	if (set_file_in(cmd, "/tmp/minishell_heredoc") != 0)
 		return (-1);
 	*tok = (*tok)->next;
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_heredoc2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:52 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/24 22:15:45 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/25 17:08:24 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,16 @@
 
 extern int	g_status;
 
-int	hd_make_tmp(int *fd, char **path_out)
-{
-	char	template_path[sizeof(HD_TEMPLATE)];
-
-	*path_out = ft_strdup(template_path);
-	if (!*path_out)
-		return (-1);
-	*fd = mkstemp(*path_out);
-	if (*fd < 0)
-	{
-		free(*path_out);
-		*path_out = NULL;
-		return (-1);
-	}
-	return (0);
-}
-
 static void	hd_child_run(const char *delim, int quoted, t_env *env)
 {
-	char	*tmp_path;
-
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
-	if (heredoc_loop_open(delim, quoted, env, &tmp_path) < 0)
-		_exit(1);
-	free(tmp_path);
-	_exit(0);
+	if (heredoc_loop_open(delim, quoted, env) < 0)
+		exit(1);
+	exit(0);
 }
 
-static int	hd_parent_wait(pid_t pid, char **out_path)
+static int	hd_parent_wait(pid_t pid)
 {
 	int	st;
 
@@ -57,25 +37,21 @@ static int	hd_parent_wait(pid_t pid, char **out_path)
 	}
 	if (WIFEXITED(st) && WEXITSTATUS(st) != 0)
 		return (-1);
-	(void)out_path;
 	return (0);
 }
 
-int	run_heredoc(const char *delim, int quoted, t_env *env, char **path_out)
+int	run_heredoc(const char *delim, int quoted, t_env *env)
 {
 	pid_t	pid;
 	int		rc;
 
-	*path_out = NULL;
 	pid = fork();
 	if (pid < 0)
 		return (-1);
 	if (pid == 0)
 		hd_child_run(delim, quoted, env);
-	rc = hd_parent_wait(pid, path_out);
+	rc = hd_parent_wait(pid);
 	if (rc != 0)
 		return (rc);
-	if (heredoc_loop_open(delim, quoted, env, path_out) < 0)
-		return (-1);
 	return (0);
 }

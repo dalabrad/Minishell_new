@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parsing.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:21:52 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/24 22:22:30 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/25 17:03:28 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,13 +248,11 @@ char					*expand_variables(const char *s, t_env *env,
 							int last_status);
 int						hd_expand_line(char **p, t_env *env);
 char					*hd_add_nl(char *s);
-int						run_heredoc(const char *delim, int quoted, t_env *env,
-							char **path_out);
+int						run_heredoc(const char *delim, int quoted, t_env *env);
 int						heredoc_loop_open(const char *delim, int quoted,
-							t_env *env, char **out_path);
+							t_env *env);
 int						heredoc_loop(int fd, const char *delim, int quoted,
 							t_env *env);
-int						hd_make_tmp(int *fd, char **path_out);
 
 // GET TOKENS EVERYWHEREEEEEE
 t_tokens				*get_tokens(void);
