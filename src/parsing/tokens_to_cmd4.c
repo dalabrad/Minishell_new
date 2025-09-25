@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_cmd4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 19:18:14 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/24 22:04:17 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:54:50 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	set_file_out(t_cmd *cmd, const char *path, int append)
 	if (cmd->file_out)
 		free(cmd->file_out);
 	cmd->file_out = dup;
+	if (append)
+		cmd->append_out = true;
 	return (0);
 }
 
