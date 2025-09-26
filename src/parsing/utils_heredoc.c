@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 19:45:33 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/25 16:59:25 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:58:06 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ int	heredoc_loop(int fd, const char *delim, int quoted, t_env *env)
 	{
 		line = readline("> ");
 		if (!line)
+		{
+			heredoc_eof_warning(delim);
 			break ;
+		}
 		if (hd_is_delim(line, delim))
 		{
 			free(line);
