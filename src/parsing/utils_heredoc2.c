@@ -59,7 +59,7 @@ int	run_heredoc(const char *delim, int quoted, t_env *env)
 void	heredoc_eof_warning(const char *delim)
 {
 	ft_putstr_fd("minishell: warning: here-document" \
-		"delimited by end-of-file (wanted \'", 2);
+		" delimited by end-of-file (wanted \'", 2);
 	ft_putstr_fd((char *)delim, 2);
 	ft_putstr_fd("\')\n", 2);
 }
