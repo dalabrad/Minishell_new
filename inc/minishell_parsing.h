@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parsing.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:21:52 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/25 17:03:28 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:31:13 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,18 +194,14 @@ void					process_segments(char **segments, t_tokens **tokens,
 							size_t n, t_data *data);
 
 // TOK_TO_CMD
-t_cmd					*tokens_to_cmd(t_tokens *tokens, t_env *env,
-							int g_status);
+t_cmd					*tokens_to_cmd(t_tokens *tokens, t_env *env);
 int						append_arg(t_cmd *cmd, const char *arg, size_t *i);
-int						handle_redirs_and_heredoc(t_cmd *cmd, t_tokens **tokens,
-							t_env *env, int g_status);
 int						is_arglike(t_tokens *t);
 int						is_redir_tok(t_tokens *t);
 int						handle_in_redir(t_cmd *cmd, t_tokens **tokens);
-int						fill_cmd_args(t_cmd *cmd, t_tokens *t, t_env *env,
-							int last_status);
+int						fill_cmd_args(t_cmd *cmd, t_tokens *t, t_env *env);
 int						handle_redirs_and_heredoc(t_cmd *cmd, t_tokens **tokens,
-							t_env *env, int g_status);
+							t_env *env);
 int						handle_out_redir(t_cmd *cmd, t_tokens **tokens);
 int						set_file_out(t_cmd *cmd, const char *path, int append);
 int						set_file_in(t_cmd *cmd, const char *path);
@@ -215,7 +211,7 @@ int						expect_next_token(t_tokens **tokens);
 int						next_is_filename(t_tokens *t);
 
 // FT_EXPAND
-void					expand_tokens(t_tokens *head, t_env *env, int g_status);
+void					expand_tokens(t_tokens *head, t_env *env);
 int						ex_bs_plain(const char *s, size_t *i, char **out);
 int						ex_bs_in_dq(const char *s, size_t *i, char **out);
 int						handle_exit_status(char **out, int status);
@@ -240,12 +236,8 @@ int						ex_handle_dollar(const char *s, size_t *i, char **out,
 
 // UTILS HEREDOC
 char					*expand_core(const char *s, t_env *env);
-static char				*expand_core_loop(const char *s, t_env *env, char *out);
-char					*expand_variables(const char *s, t_env *env,
-							int g_status);
+char					*expand_variables(const char *s, t_env *env);
 int						ft_strappend(char **dest, const char *src);
-char					*expand_variables(const char *s, t_env *env,
-							int last_status);
 int						hd_expand_line(char **p, t_env *env);
 char					*hd_add_nl(char *s);
 int						run_heredoc(const char *delim, int quoted, t_env *env);

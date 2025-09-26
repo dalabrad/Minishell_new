@@ -6,7 +6,7 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 18:25:14 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/08/06 18:25:51 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:34:33 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ void							restore_stdio(int in, int out);
 
 //  src/main_utils.c
 void							restore_stdio(int in, int out);
-void							reset_cmd_state(t_data *data,
-									t_cleanup_args *args);
+void							reset_cmd_state(t_data *data);
 void							main_loop(t_data *data);
 void							process_input_line(char *line, t_data *data,
 									int in, int out);

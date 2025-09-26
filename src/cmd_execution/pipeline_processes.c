@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_processes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 17:18:35 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/17 15:42:14 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:36:01 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	wait_all_children(t_data *data, t_cmd *head)
 	int		status;
 	t_cmd	*cur;
 
+	(void)data;
 	status = 0;
 	cur = head;
 	while (cur)
@@ -80,6 +81,7 @@ static void	wait_all_children(t_data *data, t_cmd *head)
 
 void	parent_process(t_data *data, t_cmd *cmd, size_t i)
 {
+	(void)cmd;
 	if (i > 0)
 	{
 		close_safe(&data->pipes[(i + 1) % 2][R_PIPE]);

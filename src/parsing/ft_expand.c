@@ -6,7 +6,7 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:35:00 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/24 21:51:05 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:20:08 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	set_command_type(t_tokens *head)
 	}
 }
 
-void	expand_tokens(t_tokens *head, t_env *env, int g_status)
+void	expand_tokens(t_tokens *head, t_env *env)
 {
 	t_tokens	*t;
 	char		*newstr;

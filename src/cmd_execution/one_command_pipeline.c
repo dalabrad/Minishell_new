@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   one_command_pipeline.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 12:26:53 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/16 15:21:29 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:01:07 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	parent(t_data *data, t_cmd *cmd)
 {
 	int	status;
 
+	(void)data;
 	status = 0;
 	waitpid(cmd->pid, &status, 0);
 	if (WIFEXITED(status))

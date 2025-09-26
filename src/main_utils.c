@@ -6,7 +6,7 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 00:29:51 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/23 18:40:55 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:34:15 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	restore_stdio(int in_bk, int out_bk)
 		close(out_bk);
 }
 
-void	reset_cmd_state(t_data *data, t_cleanup_args *args)
+void	reset_cmd_state(t_data *data)
 {
 	free_cmd_list(data->first_cmd);
 	data->first_cmd = NULL;
@@ -57,7 +57,7 @@ void	process_input_line(char *line, t_data *data, int in, int out)
 	cleanup(args.segments, args.tokens, args.count);
 	execute_pipeline(data);
 	restore_stdio(in, out);
-	reset_cmd_state(data, &args);
+	reset_cmd_state(data);
 }
 
 void	close_in_out(int in, int out)

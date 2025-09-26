@@ -6,7 +6,7 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:04:34 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/24 20:58:02 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:31:48 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_strappend(char **dest, const char *src)
 	return (0);
 }
 
-char	*expand_variables(const char *s, t_env *env, int g_status)
+char	*expand_variables(const char *s, t_env *env)
 {
 	return (expand_core(s, env));
 }
@@ -61,24 +61,11 @@ char	*hd_add_nl(char *s)
 	return (out);
 }
 
-static int	hd_expand_status(char **p)
-{
-	char	*st;
-
-	st = ft_itoa(g_status);
-	if (!st)
-		return (-1);
-	if (ft_strappend(p, st) < 0)
-		return (free(st), -1);
-	free(st);
-	return (0);
-}
-
 int	hd_expand_line(char **p, t_env *env)
 {
 	char	*expanded;
 
-	expanded = expand_variables(*p, env, g_status);
+	expanded = expand_variables(*p, env);
 	if (!expanded)
 		return (-1);
 	free(*p);

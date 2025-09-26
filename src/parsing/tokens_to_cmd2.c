@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_cmd2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 21:59:27 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/25 17:00:31 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:22:41 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
-
-extern int	g_status;
 
 static int	unquote_is_quoted(char **s)
 {
@@ -56,8 +54,7 @@ static int	handle_heredoc_case(t_cmd *cmd, t_tokens **tok, t_env *env)
 	return (0);
 }
 
-int	handle_redirs_and_heredoc(t_cmd *cmd, t_tokens **tokens, t_env *env,
-		int g_status)
+int	handle_redirs_and_heredoc(t_cmd *cmd, t_tokens **tokens, t_env *env)
 {
 	if ((*tokens)->type == RED_OUT || (*tokens)->type == APPEND_OUT)
 		return (handle_out_redir(cmd, tokens));

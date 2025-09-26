@@ -86,7 +86,7 @@ MAIN_SRCS = main.c src/banner.c
 # ─────────────────────────────────────────────────────────────
 
 CC = cc
-CFLAGS = -g3 -Iinc -Ilibft/inc
+CFLAGS = -g3 -Iinc -Ilibft/inc -Wall -Wextra -Werror
 LDFLAGS = -lreadline -lncurses
 
 # ─────────────────────────────────────────────────────────────

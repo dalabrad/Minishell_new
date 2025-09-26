@@ -6,7 +6,7 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 01:23:41 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/23 18:20:32 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:35:02 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int extern	g_status;
 
 void	err_cmd_not_found(const char *name, t_data *data)
 {
+	(void)data;
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd((char *)name, 2);
 	ft_putstr_fd(": command not found\n", 2);

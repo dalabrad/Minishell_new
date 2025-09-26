@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_exec.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 12:32:53 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/21 16:18:04 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:00:11 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ struct					s_data
 //	src/error_messages/error_message.c
 int						error_msg(t_err error_code);
 int						error_msg_arg(t_err error_code, char *arg);
-/* void					error_msg_exit(t_err error_code); */
 int						syntax_error(char *token);
 
 ////////////////////////////////////////////////

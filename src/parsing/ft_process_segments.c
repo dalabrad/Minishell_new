@@ -6,7 +6,7 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:36:10 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/23 22:15:07 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:27:53 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	process_single_segment(char *segment, t_tokens **token, t_data *data,
 	*token = check_args_fixed(segment, &word_count);
 	if (!*token)
 		return ;
-	expand_tokens(*token, data->shell_envp, g_status);
-	current = tokens_to_cmd(*token, data->shell_envp, g_status);
+	expand_tokens(*token, data->shell_envp);
+	current = tokens_to_cmd(*token, data->shell_envp);
 	if (!current)
 	{
 		free_tokens_list(*token);
