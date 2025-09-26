@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:52 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/25 17:08:24 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:04:41 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,12 @@ int	run_heredoc(const char *delim, int quoted, t_env *env)
 	if (rc != 0)
 		return (rc);
 	return (0);
+}
+
+void	heredoc_eof_warning(const char *delim)
+{
+	ft_putstr_fd("minishell: warning: here-document" \
+		"delimited by end-of-file (wanted \'", 2);
+	ft_putstr_fd((char *)delim, 2);
+	ft_putstr_fd("\')\n", 2);
 }
