@@ -6,7 +6,11 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:21:52 by dalabrad          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/09/26 17:31:13 by vlorenzo         ###   ########.fr       */
+=======
+/*   Updated: 2025/09/26 17:03:12 by dalabrad         ###   ########.fr       */
+>>>>>>> 867e1c6cb1060f9fc38132d4a2198d8335fac678
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +249,7 @@ int						heredoc_loop_open(const char *delim, int quoted,
 							t_env *env);
 int						heredoc_loop(int fd, const char *delim, int quoted,
 							t_env *env);
+void					heredoc_eof_warning(const char *delim);
 
 // GET TOKENS EVERYWHEREEEEEE
 t_tokens				*get_tokens(void);
