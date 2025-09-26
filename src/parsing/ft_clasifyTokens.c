@@ -6,14 +6,13 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:51:38 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/19 19:07:44 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/24 22:21:43 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
 
-//	CLASIFY TOKENS
 t_TokenType	clasify_token(const char *str)
 {
 	if (!str)
@@ -37,7 +36,6 @@ t_TokenType	clasify_token(const char *str)
 	return (ARG);
 }
 
-// ENUM TO STRING
 const char	*token_type_str(t_TokenType type)
 {
 	if (type == RED_IN)
@@ -64,38 +62,17 @@ const char	*token_type_str(t_TokenType type)
 		return ("UNKNOWN");
 }
 
-// SET COMMAND TYPE
-static int is_operator(const t_tokens *t)
+int	is_operator(const t_tokens *t)
 {
-    return (t->type == RED_IN || t->type == RED_OUT
-         || t->type == APPEND_OUT || t->type == HEREDOC);
+	return (t->type == RED_IN || t->type == RED_OUT || t->type == APPEND_OUT
+		|| t->type == HEREDOC);
 }
 
-/* Marca el PRIMER token que no sea operador como COMMAND,
-   aunque venga entre comillas. */
-void set_command_type(t_tokens *head)
-{
-    t_tokens *t = head;
-    int found = 0;
-
-    while (t)
-    {
-        if (!found && !is_operator(t) && t->type != ERROR)
-        {
-            t->type = COMMAND;
-            found = 1;
-        }
-        t = t->next;
-    }
-}
-
-// SPLIT WORDS + QUOTES
 int	is_token_sep(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
 
-// CHECK QUOTES
 void	handle_quotes(char c, bool *in_s, bool *in_d, int *quoted)
 {
 	if (c == '"' && !*in_s)

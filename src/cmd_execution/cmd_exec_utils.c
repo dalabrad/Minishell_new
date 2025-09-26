@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 01:23:41 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/16 15:17:20 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:20:32 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	is_directory_path(const char *path)
 	return (S_ISDIR(st.st_mode));
 }
 
-/* Si trae '/', se usa tal cual; si no, busca en PATH 
- * con tu find_path(args,&env). */
 char	*resolve_exec_path(t_cmd *cmd, t_data *data)
 {
 	char	*prog;

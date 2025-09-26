@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   one_builtin_with_redir.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 19:05:30 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/21 16:23:34 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:17:32 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static int	save_stdio(int *in_bk, int *out_bk)
 	return (0);
 }
 
-/* Ejecuta un builtin aplicando redirecciones SIN salir de la shell en error */
 void	one_builtin_with_redir(t_data *data, t_cmd *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])

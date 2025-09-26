@@ -6,15 +6,13 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 12:51:46 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/01 23:08:23 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:52:02 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
 
-/* Detecta si el token venía entre comillas, para respetar expansión:
-   0 = sin comillas, 1 = dobles, 2 = simples */
 static int	detect_was_quoted(const char *s)
 {
 	size_t	len;
@@ -51,48 +49,17 @@ t_tokens	*new_token(char *str)
 	return (tok);
 }
 
-size_t  number_of_cmds(t_cmd *head)
+size_t	number_of_cmds(t_cmd *head)
 {
-    size_t n = 0;
+	size_t	n;
 
-    while (head)
-    {
-        n++;
-        head = head->next;
-    }
-    return n;
-}
-
-/* ---- helpers de inicialización / parsing ---- */
-int	handle_token_alloc_fail(char **segments, char *line)
-{
-	free_array(segments);
-	free(line);
-	return (0);
-}
-
-t_pipes	*init_struct(t_pipes *args)
-{
-	args = (t_pipes *)malloc(sizeof(t_pipes));
-	if (!args)
-		return (NULL);
-	args->index = 0;
-	args->str = NULL;
-	args->next = NULL;
-	return (args);
-}
-
-int	init_pipe_segments(char *line, char ***segments, size_t *n)
-{
-	if (is_open(line) || has_invalid_pipe_usage(line))
+	n = 0;
+	while (head)
 	{
-		write(1, "Syntax error\n", 13);
-		return (0);
+		n++;
+		head = head->next;
 	}
-	*segments = ft_minisplit(line, '|', n);
-	if (!*segments)
-		return (0);
-	return (1);
+	return (n);
 }
 
 t_tokens	**init_tokens_by_segment(size_t count)

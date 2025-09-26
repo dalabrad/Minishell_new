@@ -6,7 +6,7 @@
 /*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:36:10 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/19 22:37:10 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/23 22:15:07 by vlorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 int extern	g_status;
 
-// PROCESS ALL PIPES/SEGMENTS
 void	process_single_segment(char *segment, t_tokens **token, t_data *data,
 		t_cmd **first_cmd)
 {
