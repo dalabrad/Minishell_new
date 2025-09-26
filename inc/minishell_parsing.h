@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parsing.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:21:52 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/26 17:53:58 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/26 20:27:43 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,8 @@ void					process_segments(char **segments, t_tokens **tokens,
 
 // TOK_TO_CMD
 t_cmd					*tokens_to_cmd(t_tokens *tokens, t_env *env);
-int						append_arg(t_cmd *cmd, const char *arg, size_t *i);
+int						append_arg(t_cmd *cmd, const char *arg,
+							t_quote_type quote_type, size_t *i);
 int						is_arglike(t_tokens *t);
 int						is_redir_tok(t_tokens *t);
 int						handle_in_redir(t_cmd *cmd, t_tokens **tokens);

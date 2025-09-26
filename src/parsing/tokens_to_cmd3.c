@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_cmd3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 22:10:06 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/26 17:28:54 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/26 20:23:13 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_exec.h"
 #include "minishell_parsing.h"
 
-int	append_arg(t_cmd *cmd, const char *arg, size_t *i)
+int	append_arg(t_cmd *cmd, const char *arg, t_quote_type quote_type, size_t *i)
 {
 	char	**newv;
 	size_t	n;
@@ -29,6 +29,8 @@ int	append_arg(t_cmd *cmd, const char *arg, size_t *i)
 	if (n)
 		ft_memcpy(newv, cmd->args, n * sizeof(char *));
 	newv[n] = ft_strdup(arg);
+	if (quote_type == SINGLE_QUOTE)
+		strip_quotes_inplace(newv[n]);
 	if (!newv[n])
 		return (free(newv), -1);
 	free(cmd->args);
@@ -74,7 +76,7 @@ int	fill_cmd_args(t_cmd *cmd, t_tokens *t, t_env *env)
 	{
 		if (is_arglike(t))
 		{
-			if (append_arg(cmd, t->str, &i) != 0)
+			if (append_arg(cmd, t->str, t->quote_type, &i) != 0)
 				return (-1);
 		}
 		else if (is_redir_tok(t))
