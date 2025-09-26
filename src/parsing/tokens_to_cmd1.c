@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_cmd1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 18:38:35 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/24 21:27:06 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/26 21:12:52 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	handle_out_redir(t_cmd *cmd, t_tokens **tokens)
 	append = ((*tokens)->type == APPEND_OUT);
 	if (expect_next_token(tokens) < 0)
 		return (-1);
-	if (set_file_out(cmd, (*tokens)->next->str, append) != 0)
+	if (set_file_out(cmd, (*tokens)->next->str,
+			(*tokens)->next->quote_type, append) != 0)
 		return (-1);
 	*tokens = (*tokens)->next;
 	return (0);
@@ -57,7 +58,8 @@ int	handle_in_redir(t_cmd *cmd, t_tokens **tokens)
 {
 	if (expect_next_token(tokens) < 0)
 		return (-1);
-	if (set_file_in(cmd, (*tokens)->next->str) != 0)
+	if (set_file_in(cmd, (*tokens)->next->str,
+			(*tokens)->next->quote_type) != 0)
 		return (-1);
 	*tokens = (*tokens)->next;
 	return (0);

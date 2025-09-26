@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 19:18:14 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/25 15:54:50 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/26 21:13:30 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	strip_outer_by_type(char *s, int quote_type)
 	return (1);
 }
 
-int	set_file_out(t_cmd *cmd, const char *path, int append)
+int	set_file_out(t_cmd *cmd, const char *path,
+		t_quote_type quote_type, int append)
 {
 	char	*dup;
 
@@ -64,6 +65,8 @@ int	set_file_out(t_cmd *cmd, const char *path, int append)
 	dup = ft_strdup(path);
 	if (!dup)
 		return (-1);
+	if (quote_type == SINGLE_QUOTE)
+		strip_quotes_inplace(dup);
 	if (cmd->file_out)
 		free(cmd->file_out);
 	cmd->file_out = dup;
@@ -72,7 +75,7 @@ int	set_file_out(t_cmd *cmd, const char *path, int append)
 	return (0);
 }
 
-int	set_file_in(t_cmd *cmd, const char *path)
+int	set_file_in(t_cmd *cmd, const char *path, t_quote_type quote_type)
 {
 	char	*dup;
 
@@ -81,6 +84,8 @@ int	set_file_in(t_cmd *cmd, const char *path)
 	dup = ft_strdup(path);
 	if (!dup)
 		return (-1);
+	if (quote_type == SINGLE_QUOTE)
+		strip_quotes_inplace(dup);
 	if (cmd->file_in)
 		free(cmd->file_in);
 	cmd->file_in = dup;

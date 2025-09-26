@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:21:52 by dalabrad          #+#    #+#             */
-/*   Updated: 2025/09/26 20:27:43 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/26 21:11:46 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,8 +204,10 @@ int						fill_cmd_args(t_cmd *cmd, t_tokens *t, t_env *env);
 int						handle_redirs_and_heredoc(t_cmd *cmd, t_tokens **tokens,
 							t_env *env);
 int						handle_out_redir(t_cmd *cmd, t_tokens **tokens);
-int						set_file_out(t_cmd *cmd, const char *path, int append);
-int						set_file_in(t_cmd *cmd, const char *path);
+int						set_file_out(t_cmd *cmd, const char *path,
+							t_quote_type quote_type, int append);
+int						set_file_in(t_cmd *cmd, const char *path,
+							t_quote_type quote_type);
 int						strip_outer_by_type(char *s, int quote_type);
 void					strip_quotes_inplace(char *str);
 int						expect_next_token(t_tokens **tokens);
