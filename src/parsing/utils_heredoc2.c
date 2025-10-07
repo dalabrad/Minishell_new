@@ -6,7 +6,7 @@
 /*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:53:52 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/09/26 17:04:41 by dalabrad         ###   ########.fr       */
+/*   Updated: 2025/09/27 12:14:17 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ extern int	g_status;
 
 static void	hd_child_run(const char *delim, int quoted, t_env *env)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_IGN);
+	setup_signal_hd(1);
 	if (heredoc_loop_open(delim, quoted, env) < 0)
 		exit(1);
 	exit(0);
@@ -28,6 +27,7 @@ static int	hd_parent_wait(pid_t pid)
 {
 	int	st;
 
+	setup_signal_hd(0);
 	if (waitpid(pid, &st, 0) < 0)
 		return (-1);
 	if (WIFSIGNALED(st) && WTERMSIG(st) == SIGINT)

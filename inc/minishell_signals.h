@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_signals.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlorenzo <vlorenzo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dalabrad <dalabrad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 00:02:44 by vlorenzo          #+#    #+#             */
-/*   Updated: 2025/08/05 18:03:50 by vlorenzo         ###   ########.fr       */
+/*   Updated: 2025/09/27 12:15:34 by dalabrad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ typedef struct s_tokens	t_tokens;
 
 void					setup_signal_handlers(void);
 void					restore_stdio(int in, int out);
+void					setup_signal_hd(int hd_process);
 
 #endif
